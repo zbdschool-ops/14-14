@@ -1,0 +1,2986 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>§ 14. Цінність здоров'я | Тренажер «Навігатор ризиків»</title>
+<style>
+:root {
+--primary: #1e3a8a;
+--primary-dark: #1e2a5e;
+--primary-light: #3b5ccc;
+--accent: #2563eb;
+--success: #16a34a;
+--danger: #dc2626;
+--warning: #f59e0b;
+--bg: #f1f5f9;
+--card: #ffffff;
+--text: #1e293b;
+--text-muted: #64748b;
+--border: #e2e8f0;
+--theory-blue: #dbeafe;
+--theory-green: #dcfce7;
+--theory-purple: #f3e8ff;
+--theory-orange: #ffedd5;
+--theory-pink: #fce7f3;
+--theory-yellow: #fef3c7;
+--theory-red: #fee2e2;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+color: var(--text);
+line-height: 1.6;
+min-height: 100vh;
+overflow-x: hidden;
+font-size: 16px;
+}
+.top-progress-bar {
+position: fixed; top: 0; left: 0; right: 0;
+height: 4px; background: var(--border); z-index: 1001;
+}
+.top-progress-fill {
+height: 100%;
+background: linear-gradient(90deg, var(--accent), var(--success));
+width: 0%; transition: width 0.5s ease;
+}
+.progress-widget {
+position: fixed; top: 80px; right: 20px;
+background: white; padding: 10px 12px;
+border-radius: 10px;
+box-shadow: 0 2px 10px rgba(30, 58, 138, 0.12);
+z-index: 1000; min-width: 150px;
+display: block; cursor: pointer;
+}
+.progress-widget-header {
+display: flex; justify-content: space-between; align-items: center;
+margin-bottom: 8px; padding-bottom: 8px;
+border-bottom: 2px solid var(--border);
+}
+.progress-widget-title { font-weight: 700; color: var(--primary); font-size: 12px; }
+.progress-widget-percentage { font-size: 18px; font-weight: 700; color: var(--accent); }
+.progress-widget-mini-map { display: flex; gap: 4px; margin-top: 8px; }
+.mini-step {
+width: 18px; height: 18px; border-radius: 50%;
+background: var(--border);
+display: flex; align-items: center; justify-content: center;
+font-size: 8px; font-weight: 600; color: var(--text-muted);
+}
+.mini-step.current { background: var(--warning); color: white; animation: pulse 1.5s infinite; }
+.mini-step.completed { background: var(--success); color: white; }
+.toast-container {
+position: fixed; top: 100px; right: 20px;
+z-index: 1002; display: flex; flex-direction: column; gap: 8px;
+max-width: calc(100vw - 40px);
+}
+.toast {
+background: white; padding: 16px 20px;
+border-radius: 12px;
+box-shadow: 0 8px 24px rgba(30, 58, 138, 0.2);
+display: flex; align-items: center; gap: 12px;
+animation: toastSlideIn 0.4s ease;
+border-left: 4px solid var(--success);
+min-width: 280px; max-width: 360px;
+}
+.toast.hiding { animation: toastSlideOut 0.4s ease forwards; }
+@keyframes toastSlideIn {
+from { opacity: 0; transform: translateX(100px); }
+to { opacity: 1; transform: translateX(0); }
+}
+@keyframes toastSlideOut {
+from { opacity: 1; transform: translateX(0); }
+to { opacity: 0; transform: translateX(100px); }
+}
+.toast-icon { font-size: 24px; flex-shrink: 0; }
+.toast-message { font-weight: 600; color: var(--text); font-size: 14px; }
+.header {
+background: linear-gradient(135deg, #1e2a5e 0%, #1e3a8a 50%, #2563eb 100%);
+color: white; padding: 24px 32px;
+border-radius: 0 0 16px 16px;
+box-shadow: 0 4px 16px rgba(30, 58, 138, 0.15);
+margin-top: 4px;
+}
+.header-content {
+max-width: 1200px; margin: 0 auto;
+display: flex; justify-content: space-between; align-items: center;
+flex-wrap: wrap; gap: 16px;
+}
+.header h1 { font-size: 22px; font-weight: 700; flex: 1; min-width: 200px; }
+.header-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+padding: 12px 24px; border-radius: 10px;
+font-weight: 600; cursor: pointer;
+transition: all 0.2s ease; border: none;
+font-size: 16px;
+display: inline-flex; align-items: center; justify-content: center;
+gap: 8px; min-height: 48px; white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); transform: translateY(-2px); }
+.btn-secondary { background: white; color: var(--accent); border: 2px solid var(--accent); }
+.btn-secondary:hover { background: #eff6ff; }
+.btn-warning { background: var(--warning); color: white; }
+.btn-warning:hover { background: #d97706; }
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { background: #15803d; }
+.btn:focus { outline: 3px solid #93c5fd; outline-offset: 2px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+.hero-unified {
+background: white;
+border-radius: 16px;
+box-shadow: 0 4px 16px rgba(30, 58, 138, 0.08);
+overflow: hidden;
+display: grid;
+grid-template-columns: 1.3fr 0.7fr;
+align-items: stretch;
+}
+.hero-illustration {
+background: white;
+padding: 20px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+overflow: hidden;
+}
+.hero-illustration img {
+max-width: 100%;
+height: auto;
+max-height: 500px;
+object-fit: contain;
+border-radius: 16px;
+}
+.hero-illustration-title {
+color: var(--primary);
+font-size: 20px;
+font-weight: 700;
+margin-bottom: 16px;
+padding-bottom: 5px;
+border-bottom: 2px solid var(--border);
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+text-align: center;
+}
+.hero-navigation {
+padding: 20px 24px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+border-left: 1px solid #e2e8f0;
+}
+.hero-navigation h2 {
+color: var(--primary);
+font-size: 16px;
+margin-bottom: 12px;
+padding-bottom: 8px;
+border-bottom: 2px solid var(--border);
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.step-navigation {
+display: flex;
+flex-direction: column;
+gap: 8px;
+flex: 1;
+}
+.step-nav-item {
+padding: 8px 10px;
+border-radius: 6px;
+cursor: pointer;
+transition: all 0.3s ease;
+border: 2px solid var(--border);
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.step-nav-item:hover {
+border-color: var(--accent);
+background: #eff6ff;
+transform: translateX(4px);
+}
+.step-nav-item.active {
+border-color: var(--warning);
+background: #fef3c7;
+}
+.step-nav-item.completed {
+border-color: var(--success);
+background: #dcfce7;
+}
+.step-nav-number {
+width: 26px;
+height: 26px;
+border-radius: 50%;
+background: var(--border);
+color: var(--text-muted);
+display: flex; align-items: center; justify-content: center;
+font-weight: 700; flex-shrink: 0; font-size: 11px;
+}
+.step-nav-item.active .step-nav-number { background: var(--warning); color: white; }
+.step-nav-item.completed .step-nav-number { background: var(--success); color: white; }
+.step-nav-item.completed .step-nav-number::after { content: '✓'; font-size: 13px; }
+.step-nav-content { flex: 1; min-width: 0; }
+.step-nav-title { font-weight: 600; color: var(--text); font-size: 12px; margin-bottom: 2px; line-height: 1.3; }
+.step-nav-status { font-size: 10px; color: var(--text-muted); }
+.hero-navigation .btn-primary {
+font-size: 14px;
+padding: 10px 16px;
+margin-top: 12px;
+}
+.info-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+.card {
+background: var(--card); border-radius: 16px; padding: 28px;
+box-shadow: 0 4px 16px rgba(30, 58, 138, 0.08); margin-bottom: 24px;
+transition: box-shadow 0.2s ease;
+}
+.card:hover { box-shadow: 0 8px 24px rgba(30, 58, 138, 0.14); }
+.card h2 { font-size: 22px; margin-bottom: 16px; color: var(--primary); }
+.card h3 { font-size: 18px; margin-bottom: 12px; color: var(--primary-dark); }
+.feature-list { list-style: none; padding: 0; }
+.feature-list li {
+padding: 10px 0 10px 32px; position: relative;
+border-bottom: 1px solid var(--border); font-size: 15px;
+}
+.feature-list li:last-child { border-bottom: none; }
+.feature-list li::before {
+content: attr(data-icon); position: absolute;
+left: 0; font-size: 18px; top: 10px;
+}
+.tip-card {
+background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+border-radius: 12px; padding: 16px;
+text-align: center; margin-top: 24px; font-size: 15px;
+}
+.step-header {
+background: white; border-radius: 16px; padding: 24px;
+margin-bottom: 24px;
+box-shadow: 0 4px 16px rgba(30, 58, 138, 0.08);
+}
+.step-header-top {
+display: flex; justify-content: space-between; align-items: center;
+margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+}
+.step-title { font-size: 24px; color: var(--primary); font-weight: 700; }
+.step-badge {
+background: var(--warning); color: white;
+padding: 6px 16px; border-radius: 20px;
+font-weight: 600; font-size: 14px;
+}
+.progress-dots { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.progress-dot {
+width: 12px; height: 12px; border-radius: 50%;
+background: var(--border); transition: all 0.3s;
+}
+.progress-dot.active { background: var(--accent); transform: scale(1.2); }
+.progress-dot.completed { background: var(--success); }
+.theory-compact {
+background: linear-gradient(135deg, var(--theory-blue) 0%, #bfdbfe 100%);
+border: 2px solid #93c5fd;
+border-radius: 14px;
+padding: 20px;
+margin: 16px 0;
+}
+.theory-compact h4 {
+color: var(--primary);
+font-size: 16px;
+margin-bottom: 12px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.theory-compact p {
+font-size: 14px;
+line-height: 1.6;
+margin-bottom: 8px;
+}
+.theory-compact ul {
+list-style: none;
+padding: 0;
+}
+.theory-compact ul li {
+padding: 6px 0 6px 24px;
+position: relative;
+font-size: 14px;
+}
+.theory-compact ul li::before {
+content: attr(data-icon);
+position: absolute;
+left: 0;
+font-size: 16px;
+top: 6px;
+}
+.key-point {
+background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+border: 2px solid #fbbf24;
+border-radius: 12px;
+padding: 16px;
+margin: 16px 0;
+text-align: center;
+font-weight: 600;
+color: #78350f;
+}
+.situation-layout {
+display: grid;
+grid-template-columns: 1fr 1.2fr;
+gap: 24px;
+margin: 24px 0;
+align-items: start;
+}
+.situation-illustration-left {
+background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+border: 2px solid #93c5fd;
+border-radius: 12px;
+padding: 20px;
+text-align: center;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+min-height: 240px;
+}
+.situation-img {
+max-width: 100%;
+height: auto;
+max-height: 200px;
+object-fit: contain;
+border-radius: 8px;
+margin-bottom: 12px;
+}
+.situation-caption {
+font-size: 13px;
+color: var(--text-muted);
+font-style: italic;
+margin-top: 8px;
+text-align: center;
+}
+.situation-content-right {
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+.task-options { display: grid; gap: 12px; margin: 20px 0; }
+.option {
+padding: 16px; border: 2px solid var(--border);
+border-radius: 12px; cursor: pointer;
+transition: all 0.2s;
+display: flex; align-items: flex-start; gap: 12px;
+}
+.option:hover:not(.disabled) { border-color: var(--accent); background: #eff6ff; }
+.option.selected { border-color: var(--accent); background: #eff6ff; }
+.option.correct { border-color: var(--success); background: #dcfce7; }
+.option.incorrect { border-color: var(--danger); background: #fee2e2; }
+.option.disabled { cursor: default; opacity: 0.8; }
+.option-radio, .option-checkbox {
+width: 24px; height: 24px;
+border: 2px solid var(--border);
+display: flex; align-items: center; justify-content: center;
+flex-shrink: 0; margin-top: 2px;
+}
+.option-radio { border-radius: 50%; }
+.option-checkbox { border-radius: 6px; }
+.option.selected .option-radio,
+.option.selected .option-checkbox { border-color: var(--accent); background: var(--accent); }
+.option.selected .option-radio::after,
+.option.selected .option-checkbox::after { content: '✓'; color: white; font-size: 14px; }
+.option.correct .option-radio,
+.option.correct .option-checkbox { border-color: var(--success); background: var(--success); }
+.option.correct .option-radio::after,
+.option.correct .option-checkbox::after { content: '✓'; color: white; font-size: 14px; }
+.option.incorrect .option-radio,
+.option.incorrect .option-checkbox { border-color: var(--danger); background: var(--danger); }
+.option.incorrect .option-radio::after,
+.option.incorrect .option-checkbox::after { content: '✕'; color: white; font-size: 14px; }
+.option-text { flex: 1; }
+.option-label { font-weight: 600; margin-bottom: 4px; }
+.feedback { padding: 16px; border-radius: 12px; margin: 16px 0; animation: fadeIn 0.3s ease; }
+.feedback-success { background: #dcfce7; border: 2px solid var(--success); color: #166534; }
+.feedback-error { background: #fee2e2; border: 2px solid var(--danger); color: #991b1b; }
+.feedback-warning { background: #fef3c7; border: 2px solid var(--warning); color: #92400e; }
+.navigation { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+.navigation .btn { flex: 1; min-width: 140px; }
+.modal-overlay {
+position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(15, 23, 42, 0.6);
+backdrop-filter: blur(4px);
+display: flex; align-items: center; justify-content: center;
+z-index: 2000; opacity: 0; visibility: hidden;
+transition: all 0.3s ease; padding: 20px;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal {
+background: white; border-radius: 16px; padding: 32px;
+max-width: 560px; width: 100%; max-height: 90vh;
+overflow-y: auto;
+box-shadow: 0 12px 40px rgba(30, 58, 138, 0.22);
+transform: scale(0.9); transition: transform 0.3s ease;
+}
+.modal-overlay.active .modal { transform: scale(1); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; gap: 12px; }
+.modal-header h2 { color: var(--primary); font-size: 22px; }
+.modal-close {
+background: none; border: none; font-size: 28px;
+cursor: pointer; color: var(--text-muted);
+width: 40px; height: 40px;
+display: flex; align-items: center; justify-content: center;
+border-radius: 8px;
+}
+.modal-close:hover { background: var(--bg); color: var(--text); }
+.text-center { text-align: center; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.mt-24 { margin-top: 24px; }
+.hidden { display: none !important; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+.drag-container {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 24px;
+margin: 24px 0;
+}
+.drag-source, .drag-target {
+background: var(--bg);
+border-radius: 12px;
+padding: 20px;
+}
+.drag-source h4, .drag-target h4 {
+font-size: 16px;
+color: var(--primary);
+margin-bottom: 16px;
+padding-bottom: 8px;
+border-bottom: 2px solid var(--border);
+}
+.drag-item {
+background: white;
+border: 2px solid var(--border);
+border-radius: 10px;
+padding: 10px 12px;
+margin-bottom: 8px;
+cursor: grab;
+transition: all 0.2s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+font-size: 13px;
+font-weight: 500;
+line-height: 1.4;
+word-wrap: break-word;
+}
+.drag-item:hover {
+border-color: var(--accent);
+box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+transform: translateY(-2px);
+}
+.drag-item:active { cursor: grabbing; }
+.drag-item.dragging { opacity: 0.5; transform: rotate(2deg); }
+.drag-item-step {
+width: 28px;
+height: 28px;
+background: var(--accent);
+color: white;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 13px;
+font-weight: 700;
+flex-shrink: 0;
+}
+.drop-zone {
+background: white;
+border: 2px dashed var(--border);
+border-radius: 10px;
+padding: 10px;
+margin-bottom: 8px;
+min-height: 56px;
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+align-items: flex-start;
+transition: all 0.2s ease;
+}
+.drop-zone.drag-over { border-color: var(--accent); background: #eff6ff; border-style: solid; }
+.drop-zone.filled { border-style: solid; border-color: var(--accent); background: #eff6ff; }
+.drop-zone.correct { border-color: var(--success); background: #dcfce7; }
+.drop-zone.incorrect { border-color: var(--danger); background: #fee2e2; }
+.drop-zone-number {
+width: 28px; height: 28px;
+background: var(--border); color: var(--text-muted);
+border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+font-weight: 700; font-size: 13px; flex-shrink: 0;
+}
+.drop-zone.filled .drop-zone-number { background: var(--accent); color: white; }
+.drop-zone.correct .drop-zone-number { background: var(--success); }
+.drop-zone.incorrect .drop-zone-number { background: var(--danger); }
+.drop-zone-text {
+flex: 1; font-size: 14px; color: var(--text-muted);
+font-weight: 500; line-height: 1.5;
+}
+
+.true-false-container {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 12px;
+margin: 20px 0;
+}
+.tf-item {
+background: white;
+border: 2px solid var(--border);
+border-radius: 12px;
+padding: 14px;
+}
+.tf-statement {
+font-weight: 600;
+margin-bottom: 12px;
+font-size: 14px;
+}
+.tf-options {
+display: flex;
+gap: 8px;
+}
+.tf-option {
+flex: 1;
+padding: 10px;
+border: 2px solid var(--border);
+border-radius: 8px;
+text-align: center;
+cursor: pointer;
+transition: all 0.2s;
+font-weight: 600;
+font-size: 13px;
+}
+.tf-option:hover { border-color: var(--accent); background: #eff6ff; }
+.tf-option.selected { border-color: var(--accent); background: #eff6ff; }
+.tf-option.correct { border-color: var(--success); background: #dcfce7; }
+.tf-option.incorrect { border-color: var(--danger); background: #fee2e2; }
+
+.stats-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 20px;
+margin-bottom: 24px;
+}
+.stat-card {
+background: white; padding: 20px;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+text-align: center;
+}
+.stat-value { font-size: 32px; font-weight: 800; color: var(--primary); }
+.stat-label { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+.step6-header {
+background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+color: white;
+padding: 32px;
+border-radius: 16px;
+margin-bottom: 24px;
+text-align: center;
+box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+}
+.step6-header h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+.step6-header p { font-size: 16px; opacity: 0.9; }
+
+.progress-circle-container {
+display: flex; justify-content: center; align-items: center;
+margin: 24px 0; position: relative;
+}
+.progress-circle {
+width: 180px; height: 180px;
+border-radius: 50%;
+background: conic-gradient(var(--success) 0%, var(--bg) 0%);
+display: flex; justify-content: center; align-items: center;
+transition: background 1s ease;
+box-shadow: 0 4px 16px rgba(30, 58, 138, 0.1);
+}
+.progress-circle-inner {
+width: 140px; height: 140px;
+background: white; border-radius: 50%;
+display: flex; flex-direction: column;
+justify-content: center; align-items: center;
+}
+.circle-percentage { font-size: 40px; font-weight: 800; color: var(--primary); }
+.circle-label { font-size: 14px; color: var(--text-muted); }
+
+.level-badge {
+display: inline-flex; align-items: center; gap: 12px;
+background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+border: 2px solid #bfdbfe;
+padding: 16px 24px;
+border-radius: 12px;
+margin: 16px 0;
+}
+.level-badge-icon { font-size: 40px; }
+.level-badge-text { text-align: left; }
+.level-badge-title { font-size: 18px; font-weight: 700; color: var(--primary); }
+.level-badge-desc { font-size: 14px; color: var(--text-muted); }
+
+.steps-summary {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 16px;
+margin: 24px 0;
+}
+.step-card {
+background: white; padding: 16px;
+border-radius: 12px;
+border: 2px solid var(--border);
+display: flex; align-items: center; gap: 12px;
+}
+.step-card-icon {
+width: 40px; height: 40px;
+background: var(--bg);
+border-radius: 10px;
+display: flex; align-items: center; justify-content: center;
+font-size: 20px;
+}
+.step-card-info { flex: 1; }
+.step-card-title { font-weight: 600; font-size: 15px; color: var(--text); }
+.step-card-status { font-size: 13px; color: var(--text-muted); }
+.step-card-status.completed { color: var(--success); font-weight: 600; }
+
+.star-rating { display: flex; gap: 8px; margin-top: 8px; }
+.star {
+font-size: 24px; cursor: pointer;
+color: var(--border);
+transition: color 0.2s ease;
+}
+.star:hover, .star.active { color: var(--warning); }
+
+.skill-eval {
+margin-bottom: 20px;
+padding-bottom: 16px;
+border-bottom: 1px solid var(--border);
+}
+.skill-eval:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.skill-title { font-weight: 600; font-size: 16px; color: var(--text); }
+
+.factor-card {
+background: white;
+border-radius: 12px;
+padding: 16px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+transition: transform 0.2s;
+}
+.factor-card:hover {
+transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.factor-icon {
+font-size: 32px;
+margin-bottom: 8px;
+text-align: center;
+}
+.factor-title {
+font-weight: 700;
+color: var(--primary);
+font-size: 14px;
+margin-bottom: 6px;
+text-align: center;
+}
+.factor-desc {
+font-size: 12px;
+color: var(--text-muted);
+text-align: center;
+line-height: 1.4;
+}
+
+@media (max-width: 968px) {
+.hero-unified { grid-template-columns: 1fr; }
+.hero-illustration { border-right: none; border-bottom: 2px dashed var(--accent); min-height: 300px; }
+.info-blocks { grid-template-columns: 1fr; }
+.progress-widget { display: none !important; }
+.drag-container { grid-template-columns: 1fr; }
+.situation-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+.header { padding: 16px; border-radius: 0 0 12px 12px; }
+.header h1 { font-size: 16px; }
+.header-buttons .btn { padding: 10px 12px; font-size: 14px; }
+.container { padding: 20px 16px; }
+.card { padding: 20px; }
+.hero-illustration { padding: 24px 16px; min-height: 250px; }
+.hero-navigation { padding: 20px 16px; }
+.navigation .btn { width: 100%; min-width: 100%; }
+.task-options { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 480px) {
+.step-title { font-size: 18px; }
+.card h2 { font-size: 18px; }
+.option { padding: 12px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+<div class="top-progress-bar">
+<div class="top-progress-fill" id="topProgressBar"></div>
+</div>
+<div class="progress-widget" id="progressWidget" onclick="showProgressModal()" tabindex="0" role="button" aria-label="Відкрити вікно прогресу">
+<div class="progress-widget-header">
+<span class="progress-widget-title">📊 Прогрес</span>
+<span class="progress-widget-percentage" id="widgetPercentage">0%</span>
+</div>
+<div style="font-size: 10px; color: var(--text-muted); margin-bottom: 6px;">
+Виконано: <strong id="widgetTasks">0/15</strong>
+</div>
+<div class="progress-widget-mini-map" id="widgetMiniMap"></div>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+<header class="header">
+<div class="header-content">
+<h1 id="headerTitle">🌟 § 14. Цінність здоров'я</h1>
+<div class="header-buttons">
+<button class="btn btn-secondary" onclick="goToMainPage()">← До змісту</button>
+<button class="btn btn-secondary" onclick="showProgressModal()">📊 Прогрес</button>
+<button class="btn btn-secondary" onclick="showHelpModal()">❓ Як працювати?</button>
+</div>
+</div>
+</header>
+<main class="container hidden" id="mainPage">
+<div class="hero-unified">
+<div class="hero-illustration">
+<div class="hero-illustration-title">🌟 § 14. Цінність здоров'я</div>
+<img src="https://res.cloudinary.com/dmydvhkzr/image/upload/v1784654517/12-01_n7tte7.png" alt="Цінність здоров'я">
+</div>
+<div class="hero-navigation">
+<h2>🧭 Навігація по кроках</h2>
+<div class="step-navigation" id="stepNavigation"></div>
+<button class="btn btn-primary mt-24" onclick="goToStep(1)" style="width: 100%; font-size: 17px; padding: 14px;">
+🚀 Розпочати параграф →
+</button>
+</div>
+</div>
+<div class="info-blocks">
+<div class="card" style="margin: 0;">
+<h3>🎯 У цьому параграфі ти:</h3>
+<ul class="feature-list">
+<li data-icon="🧬">дізнаєшся про біопсихосоціальний підхід до здоров'я</li>
+<li data-icon="🔗">з'ясуєш, як взаємопов'язані фізичне, психічне й соціальне здоров'я</li>
+<li data-icon="👥">поясниш, чим відрізняються особисте і громадське здоров'я</li>
+<li data-icon="💭">усвідоміш цінність здоров'я для себе та суспільства</li>
+</ul>
+</div>
+<div class="card" style="margin: 0;">
+<h3>📋 Що ти робитимеш?</h3>
+<ul class="feature-list">
+<li data-icon="🔍">Аналізувати життєві ситуації</li>
+<li data-icon="📊">Визначати складники здоров'я</li>
+<li data-icon="🎯">Впорядковувати алгоритми дій</li>
+<li data-icon="⭐">Оціниш свої вміння</li>
+</ul>
+</div>
+</div>
+<div class="tip-card">
+💡 <strong>Пам'ятай:</strong> Здоров'я залежить не лише від стану тіла, а й від думок, стосунків і щоденних рішень!
+</div>
+</main>
+
+<main class="container hidden" id="step1Page">
+<div class="step-header">
+<h2 class="step-title">🎯 Крок 1. Стартове завдання</h2>
+</div>
+<section class="card">
+<div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #fbbf24; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+<strong style="color: #92400e; font-size: 16px; display: block; margin-bottom: 8px;">📌 Ситуація:</strong>
+<p>Після переїзду до нового міста Максим почав гірше спати, менше їсти, перестав спілкуватися з однолітками та втратив інтерес до навчання. Медичні аналізи не показали серйозних порушень.</p>
+</div>
+<div class="situation-layout">
+<div class="situation-illustration-left">
+<img src="https://res.cloudinary.com/dmydvhkzr/image/upload/v1784654515/12-02_glga7x.png" alt="Ситуація з Максимом" class="situation-img">
+</div>
+<div class="situation-content-right">
+<div class="feedback feedback-warning mb-16">
+<p><strong>❓Оберіть правильну відповідь:</strong></p>
+</div>
+<div class="task-options" id="s1Task1Options">
+<div class="option" data-correct="false" onclick="selectOption(this, 's1Task1Options')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text">
+<div class="option-label">🏥 Максиму потрібне термінове медичне обстеження</div>
+</div>
+</div>
+<div class="option" data-correct="true" onclick="selectOption(this, 's1Task1Options')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text">
+<div class="option-label">🧠 Проблема Максима пов'язана з психологічною та соціальною адаптацією</div>
+</div>
+</div>
+<div class="option" data-correct="false" onclick="selectOption(this, 's1Task1Options')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text">
+<div class="option-label">😴 Максим просто лінується і йому потрібно взятися за розум</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="s1Task1Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="goToMainPage()">← До змісту</button>
+<button class="btn btn-primary" onclick="checkS1Task1()">✓ Перевірити</button>
+<button class="btn btn-success" onclick="goToStep(2)">Далі: Крок 2 →</button>
+</div>
+</section>
+</main>
+
+<main class="container hidden" id="step2Page">
+<div class="step-header">
+<div class="step-header-top">
+<h2 class="step-title">🧬 Крок 2. Біопсихосоціальний підхід</h2>
+<span class="step-badge">3 завдання</span>
+</div>
+<div class="progress-dots">
+<div class="progress-dot completed"></div>
+<div class="progress-dot active"></div>
+<div class="progress-dot"></div>
+</div>
+</div>
+<section class="card" id="s2Theory">
+<h2>📖 Теоретичний блок</h2>
+<div class="theory-compact">
+<h4>🌍 Сучасний погляд на здоров'я</h4>
+<p>Раніше здоров'я часто пов'язували лише зі станом тіла: якщо нічого не болить і немає температури, людину вважали здоровою.</p>
+<p>Сучасний підхід ширший. Він допомагає зрозуміти, що на здоров'я впливають не лише робота організму, а й емоції, думки, стосунки з людьми, умови життя та підтримка оточення.</p>
+</div>
+<div class="theory-compact" style="background: linear-gradient(135deg, var(--theory-green) 0%, #bfdbfe 100%); border-color: #93c5fd;">
+<h4>🔬 Біопсихосоціальна модель здоров'я</h4>
+<p>Цей підхід розглядає здоров'я як взаємодію трьох складників:</p>
+<ul>
+<li data-icon="🧬"><strong>Біологічний</strong> — робота організму, спадковість, імунітет, стан серця й мозку, сон, харчування, рухова активність</li>
+<li data-icon="🧠"><strong>Психологічний</strong> — думки, емоції, самооцінка, мотивація, здатність зосереджуватися й долати стрес</li>
+<li data-icon="👥"><strong>Соціальний</strong> — стосунки з людьми, підтримка родини й друзів, атмосфера в класі, безпека середовища</li>
+</ul>
+</div>
+<div class="key-point">
+⚠️ Усі ці складники взаємопов'язані та разом впливають на здоров'я людини!
+</div>
+<div style="text-align: center; margin: 24px 0;">
+<div style="background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; display: inline-block; max-width: 100%;">
+<strong style="color: var(--primary); font-size: 18px; display: block; margin-bottom: 16px;">🔄 ВЗАЄМОЗВ'ЯЗОК СКЛАДНИКІВ</strong>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: center;">
+<div style="background: var(--theory-blue); padding: 16px; border-radius: 12px; text-align: center;">
+<div style="font-size: 32px; margin-bottom: 8px;">🧬</div>
+<div style="font-weight: 700; color: var(--primary);">Біологічний</div>
+<div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Фізичне здоров'я</div>
+</div>
+<div style="background: var(--theory-purple); padding: 16px; border-radius: 12px; text-align: center;">
+<div style="font-size: 32px; margin-bottom: 8px;">🧠</div>
+<div style="font-weight: 700; color: var(--primary);">Психологічний</div>
+<div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Психічне здоров'я</div>
+</div>
+<div style="background: var(--theory-green); padding: 16px; border-radius: 12px; text-align: center;">
+<div style="font-size: 32px; margin-bottom: 8px;">👥</div>
+<div style="font-weight: 700; color: var(--primary);">Соціальний</div>
+<div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Соціальне здоров'я</div>
+</div>
+</div>
+<div style="margin-top: 16px; font-size: 13px; color: var(--text-muted);">
+</div>
+</div>
+</div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="goToMainPage()">← До змісту</button>
+<button class="btn btn-primary" onclick="showS2('s2Task1')">Далі: Завдання 1 →</button>
+</div>
+</section>
+<section class="card hidden" id="s2Task1">
+<h2>🎯 Завдання 1. Визнач складник здоров'я</h2>
+<div class="feedback feedback-warning mb-24">
+<strong>📌 Інструкція:</strong> Визнач, до якого складника біопсихосоціальної моделі належить кожен прояв.
+</div>
+<div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+<strong style="color: var(--primary); font-size: 16px; margin-bottom: 12px; display: block;">📋 Прояв 1:</strong>
+<p style="margin-bottom: 16px;">Хронічна втома, порушення сну, головний біль</p>
+<div class="task-options" id="s2Task1Item1">
+<div class="option" data-correct="true" onclick="selectOption(this, 's2Task1Item1')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text"><div class="option-label">🧬 Біологічний складник</div></div>
+</div>
+<div class="option" data-correct="false" onclick="selectOption(this, 's2Task1Item1')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text"><div class="option-label">🧠 Психологічний складник</div></div>
+</div>
+<div class="option" data-correct="false" onclick="selectOption(this, 's2Task1Item1')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text"><div class="option-label">👥 Соціальний складник</div></div>
+</div>
+</div>
+</div>
+<div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+<strong style="color: var(--primary); font-size: 16px; margin-bottom: 12px; display: block;">📋 Прояв 2:</strong>
+<p style="margin-bottom: 16px;">Тривожність, низька самооцінка, стрес</p>
+<div class="task-options" id="s2Task1Item2">
+<div class="option" data-correct="false" onclick="selectOption(this, 's2Task1Item2')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text"><div class="option-label">🧬 Біологічний складник</div></div>
+</div>
+<div class="option" data-correct="true" onclick="selectOption(this, 's2Task1Item2')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text"><div class="option-label">🧠 Психологічний складник</div></div>
+</div>
+<div class="option" data-correct="false" onclick="selectOption(this, 's2Task1Item2')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text"><div class="option-label">👥 Соціальний складник</div></div>
+</div>
+</div>
+</div>
+<div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+<strong style="color: var(--primary); font-size: 16px; margin-bottom: 12px; display: block;">📋 Прояв 3:</strong>
+<p style="margin-bottom: 16px;">Конфлікти з друзями, ізоляція від колективу</p>
+<div class="task-options" id="s2Task1Item3">
+<div class="option" data-correct="false" onclick="selectOption(this, 's2Task1Item3')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text"><div class="option-label">🧬 Біологічний складник</div></div>
+</div>
+<div class="option" data-correct="false" onclick="selectOption(this, 's2Task1Item3')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text"><div class="option-label">🧠 Психологічний складник</div></div>
+</div>
+<div class="option" data-correct="true" onclick="selectOption(this, 's2Task1Item3')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text"><div class="option-label">👥 Соціальний складник</div></div>
+</div>
+</div>
+</div>
+<div id="s2Task1Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS2('s2Theory')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS2Task1()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS2Task1()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="showS2('s2Task2')">Далі: Завдання 2 →</button>
+</div>
+</section>
+<section class="card hidden" id="s2Task2">
+<h2>🎯 Завдання 2. Визнач складову здоров’я</h2>
+
+<div class="feedback feedback-warning mb-24">
+<strong>📌 Інструкція:</strong> Перетягни кожен чинник до відповідної складової біопсихосоціальної моделі здоров’я.
+</div>
+
+<div class="drag-container">
+
+<div class="drag-source">
+<h4>📦 Чинники:</h4>
+
+<div id="s2DragItems1">
+
+<div class="drag-item" draggable="true" data-component="biological">
+<div class="drag-item-step">?</div>
+<div>🧬 Спадковість</div>
+</div>
+
+<div class="drag-item" draggable="true" data-component="psychological">
+<div class="drag-item-step">?</div>
+<div>🧠 Уміння керувати стресом</div>
+</div>
+
+<div class="drag-item" draggable="true" data-component="social">
+<div class="drag-item-step">?</div>
+<div>🤝 Підтримка друзів</div>
+</div>
+
+<div class="drag-item" draggable="true" data-component="biological">
+<div class="drag-item-step">?</div>
+<div>💪 Рівень фізичної підготовленості</div>
+</div>
+
+<div class="drag-item" draggable="true" data-component="psychological">
+<div class="drag-item-step">?</div>
+<div>😊 Самооцінка</div>
+</div>
+
+<div class="drag-item" draggable="true" data-component="social">
+<div class="drag-item-step">?</div>
+<div>🏫 Умови навчання</div>
+</div>
+
+</div>
+</div>
+
+<div class="drag-target">
+
+<h4>🎯 Складові здоров’я:</h4>
+
+<div id="s2DropZones1">
+
+<div class="drop-zone" data-component="biological">
+<div class="drop-zone-number">🧬</div>
+<div class="drop-zone-text"><strong>Біологічна</strong><br><small>Організм, спадковість, фізичний стан</small></div>
+</div>
+
+<div class="drop-zone" data-component="psychological">
+<div class="drop-zone-number">🧠</div>
+<div class="drop-zone-text"><strong>Психологічна</strong><br><small>Емоції, мислення, поведінка</small></div>
+</div>
+
+<div class="drop-zone" data-component="social">
+<div class="drop-zone-number">👥</div>
+<div class="drop-zone-text"><strong>Соціальна</strong><br><small>Спілкування, підтримка, суспільство</small></div>
+</div>
+</div>
+</div>
+</div>
+<div id="s2Task2Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS2('s2Task1')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS2Task2()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS2Task2()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="showS2('s2Task3')">Далі: Завдання 3 →</button>
+</div>
+</section>
+<section class="card hidden" id="s2Task3">
+<h2>📝 Завдання 3. Правда чи неправда?</h2>
+<div class="feedback feedback-warning mb-24">
+<strong>📌 Інструкція:</strong> Для кожного твердження обери: ПРАВДА чи НЕПРАВДА.
+</div>
+<div class="true-false-container" id="s2Task3TF">
+<div class="tf-item">
+<div class="tf-statement">💪 Здоров'я залежить лише від фізичного стану організму</div>
+<div class="tf-options">
+<div class="tf-option" data-correct="false" onclick="selectTF(this, 's2tf1')">ПРАВДА</div>
+<div class="tf-option" data-correct="true" onclick="selectTF(this, 's2tf1')">НЕПРАВДА</div>
+</div>
+</div>
+<div class="tf-item">
+<div class="tf-statement">🧠 Емоції та думки впливають на загальне здоров'я</div>
+<div class="tf-options">
+<div class="tf-option" data-correct="true" onclick="selectTF(this, 's2tf2')">ПРАВДА</div>
+<div class="tf-option" data-correct="false" onclick="selectTF(this, 's2tf2')">НЕПРАВДА</div>
+</div>
+</div>
+<div class="tf-item">
+<div class="tf-statement">👥 Соціальне середовище не має значення для здоров'я</div>
+<div class="tf-options">
+<div class="tf-option" data-correct="false" onclick="selectTF(this, 's2tf3')">ПРАВДА</div>
+<div class="tf-option" data-correct="true" onclick="selectTF(this, 's2tf3')">НЕПРАВДА</div>
+</div>
+</div>
+</div>
+<div id="s2Task3Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS2('s2Task2')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS2Task3()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS2Task3()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="goToStep(3)">Далі: Крок 3 →</button>
+</div>
+</section>
+</main>
+
+<main class="container hidden" id="step3Page">
+<div class="step-header">
+<div class="step-header-top">
+<h2 class="step-title">🔗 Крок 3. Як взаємопов'язані складові здоров'я</h2>
+<span class="step-badge">4 завдання</span>
+</div>
+<div class="progress-dots">
+<div class="progress-dot completed"></div>
+<div class="progress-dot completed"></div>
+<div class="progress-dot active"></div>
+</div>
+</div>
+<section class="card" id="s3Theory">
+<h2>📖 Теоретичний блок</h2>
+<div class="theory-compact">
+<h4>🔄 Взаємозв'язок складників здоров'я</h4>
+<p>Складники здоров'я не існують окремо. Якщо змінюється фізичне самопочуття, це може впливати на настрій, навчання й спілкування. А тривалий стрес або проблеми у стосунках можуть позначатися на сні, апетиті та загальному стані організму.</p>
+</div>
+<div style="background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 24px 0;">
+<h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">🔗 ПРИКЛАДИ ВЗАЄМОЗВ'ЯЗКІВ</h3>
+<div style="display: grid; gap: 16px;">
+<div style="background: var(--theory-red); padding: 16px; border-radius: 12px; border-left: 4px solid var(--danger);">
+<strong style="color: var(--danger); display: block; margin-bottom: 8px;">📌 Приклад 1: Соціальне → Психічне → Фізичне</strong>
+<div style="font-size: 14px;">Посварився з другом → Образа, сум, стрес → Порушення сну, головний біль</div>
+</div>
+<div style="background: var(--theory-orange); padding: 16px; border-radius: 12px; border-left: 4px solid var(--warning);">
+<strong style="color: #ea580c; display: block; margin-bottom: 8px;">📌 Приклад 2: Психічне → Фізичне → Соціальне</strong>
+<div style="font-size: 14px;">Сильне хвилювання перед виступом → Біль у животі, тремтіння рук → Уникнення спілкування</div>
+</div>
+<div style="background: var(--theory-blue); padding: 16px; border-radius: 12px; border-left: 4px solid var(--accent);">
+<strong style="color: var(--accent); display: block; margin-bottom: 8px;">📌 Приклад 3: Фізичне → Психічне → Соціальне</strong>
+<div style="font-size: 14px;">Мало руху, багато часу за комп'ютером → Втома, млявість, поганий настрій → Менше спілкування з друзями</div>
+</div>
+</div>
+<div style="margin-top: 16px; text-align: center; font-size: 13px; color: var(--text-muted);">
+</div>
+</div>
+<div class="key-point">
+💡 Зміни в одному складнику здоров'я можуть впливати на інші, тому про здоров'я потрібно дбати комплексно!
+</div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="goToMainPage()">← До змісту</button>
+<button class="btn btn-primary" onclick="showS3('s3Task1')">Далі: Завдання 1 →</button>
+</div>
+</section>
+<section class="card hidden" id="s3Task1">
+<h2>📝 Завдання 1. Визнач ланцюг впливу</h2>
+<div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #fbbf24; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+<strong style="color: #92400e; font-size: 16px; display: block; margin-bottom: 8px;">📌 Ситуація:</strong>
+<p>Максим із дитинства займався футболом і мріяв про спортивну кар'єру. Після травми ноги лікарі повідомили, що йому потрібне тривале відновлення, тому він тимчасово не зможе тренуватися з командою. Максим засмутився, втратив мотивацію і почав уникати спілкування з друзями з команди.</p>
+</div>
+<div class="situation-layout">
+<div class="situation-illustration-left">
+<img src="https://res.cloudinary.com/dmydvhkzr/image/upload/v1784655336/12-03_pp8622.png" alt="Травма Максима" class="situation-img">
+</div>
+<div class="situation-content-right">
+<div class="feedback feedback-warning" style="margin: 0;">
+<p class="mb-16"><strong>🔗 Визнач правильний ланцюг впливу:</strong></p>
+</div>
+<div class="task-options" id="s3Task1Options">
+<div class="option" data-correct="false" onclick="selectOption(this, 's3Task1Options')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text">
+<div class="option-label">🧠 Психічне (сум) → 🦴 Фізичне (травма) → 👥 Соціальне (ізоляція)</div>
+</div>
+</div>
+<div class="option" data-correct="true" onclick="selectOption(this, 's3Task1Options')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text">
+<div class="option-label">🦴 Фізичне (травма) → 🧠 Психічне (сум) → 👥 Соціальне (ізоляція)</div>
+</div>
+</div>
+<div class="option" data-correct="false" onclick="selectOption(this, 's3Task1Options')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text">
+<div class="option-label">👥 Соціальне (ізоляція) → 🧠 Психічне (сум) → 🦴 Фізичне (травма)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="s3Task1Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS3('s3Theory')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS3Task1()">✓ Перевірити</button>
+<button class="btn btn-success" onclick="showS3('s3Task2')">Далі: Завдання 2 →</button>
+</div>
+</section>
+<section class="card hidden" id="s3Task2">
+<h2>📝 Завдання 2. Ситуаційний аналіз</h2>
+<div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #fbbf24; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+<strong style="color: #92400e; font-size: 16px; display: block; margin-bottom: 8px;">📌 Ситуація:</strong>
+<p>Аліна перейшла до нової школи у 10 класі. Їй здається, що всі в класі вже мають свої компанії, тому вона хвилюється і боїться бути «зайвою». Через напруження Аліна почала погано спати, швидко втомлюється і дедалі частіше уникає групової роботи.</p>
+</div>
+<div class="situation-content-right">
+<div class="feedback feedback-warning" style="margin: 0;">
+<p class="mb-16"><strong>📌 Інструкція: Перетягни елементи так, щоб утворився логічний ланцюг причин і наслідків.</strong></p>
+</div>
+<div class="drag-container">
+<div class="drag-source">
+<h4>📦 Елементи:</h4>
+<div id="s3DragItems2">
+<div class="drag-item" draggable="true" data-step="3">
+<div class="drag-item-step">?</div>
+<div>🦴 Фізичне: поганий сон, втома</div>
+</div>
+<div class="drag-item" draggable="true" data-step="1">
+<div class="drag-item-step">?</div>
+<div>👥 Соціальне: нова школа, страх бути зайвою</div>
+</div>
+<div class="drag-item" draggable="true" data-step="2">
+<div class="drag-item-step">?</div>
+<div>🧠 Психічне: хвилювання, напруження</div>
+</div>
+</div>
+</div>
+<div class="drag-target">
+<h4>🔢 Ланцюг впливу:</h4>
+<div id="s3DropZones2">
+<div class="drop-zone" data-position="1"><div class="drop-zone-number">1</div><div class="drop-zone-text">Перетягни сюди</div></div>
+<div class="drop-zone" data-position="2"><div class="drop-zone-number">2</div><div class="drop-zone-text">Перетягни сюди</div></div>
+<div class="drop-zone" data-position="3"><div class="drop-zone-number">3</div><div class="drop-zone-text">Перетягни сюди</div></div>
+</div>
+</div>
+</div>
+<div id="s3Task2Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS3('s3Task1')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS3Task2()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS3Task2()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="showS3('s3Task3')">Далі: Завдання 3 →</button>
+</div>
+</section>
+<section class="card hidden" id="s3Task3">
+<h2>📝 Завдання 3. Знайди рішення</h2>
+<div class="feedback feedback-warning mb-24">
+<strong>📌 Завдання:</strong> Обери дії, які можуть зупинити негативний ланцюг впливу на здоров'я.
+</div>
+<div class="situation-layout">
+<div class="situation-illustration-left">
+<img src="https://res.cloudinary.com/dmydvhkzr/image/upload/v1784654515/12-02_glga7x.png" alt="Ситуація з Максимом" class="situation-img">
+</div>
+<div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #fbbf24; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+<strong style="color: #92400e; font-size: 16px; display: block; margin-bottom: 8px;">📋 Ситуація:</strong>
+<p style="margin-bottom: 16px;">Данило часто порівнює себе з іншими в соцмережах. Після кількох образливих коментарів він починає сумніватися в собі, постійно перевіряє телефон і пізно лягає спати. Через втому та головний біль Данило менше спілкується з друзями наживо.</p>
+</div>
+<div class="task-options" id="s3Task3Options">
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">💬 Поговорити з кимось із близьких про свої почуття</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">😴 Встановити режим сну та відпочинку</div></div>
+</div>
+<div class="option" data-correct="false" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">📱 Ще частіше перевіряти соцмережі, щоб відстежувати реакції</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">💪 Зосередитися на своїх сильних сторонах та досягненнях</div></div>
+</div>
+</div>
+<div id="s3Task3Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS3('s3Task2')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS3Task3()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS3Task3()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="showS3('s3Task4')">Далі: Завдання 4 →</button>
+</div>
+</section>
+<section class="card hidden" id="s3Task4">
+<h2>🌟 Завдання 4. Позитивний приклад</h2>
+</div>
+<div class="situation-layout">
+<div class="situation-illustration-left">
+<img src="https://res.cloudinary.com/dmydvhkzr/image/upload/v1784654515/12-02_glga7x.png" alt="Ситуація з Максимом" class="situation-img">
+</div>
+<div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #fbbf24; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+<strong style="color: #92400e; font-size: 16px; display: block; margin-bottom: 8px;">📌 Ситуація:</strong>
+<p>Данило почав кілька разів на тиждень займатися на воркаут-майданчику з друзями. Через деякий час він помітив, що став витривалішим, краще спить, має більше енергії й легше справляється зі стресом.❓ Яка складова здоров'я найбільше вплинула на подальші позитивні зміни?</p>
+</div>
+<div class="task-options" id="s3Task4Options">
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text">
+<div class="option-label">🦴 Фізичне здоров'я покращилося (витривалість, сон)</div>
+</div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text">
+<div class="option-label">🧠 Психічне здоров'я покращилося (менше стресу, більше енергії)</div>
+</div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text">
+<div class="option-label">👥 Соціальне здоров'я покращилося (спілкування з друзями)</div>
+</div>
+</div>
+</div>
+<div id="s3Task4Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS3('s3Task3')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS3Task4()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS3Task4()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="goToStep(4)">Далі: Крок 4 →</button>
+</div>
+</section>
+</main>
+
+<main class="container hidden" id="step4Page">
+<div class="step-header">
+<div class="step-header-top">
+<h2 class="step-title">👥 Крок 4. Особисте і громадське здоров'я</h2>
+<span class="step-badge">4 завдання</span>
+</div>
+<div class="progress-dots">
+<div class="progress-dot completed"></div>
+<div class="progress-dot completed"></div>
+<div class="progress-dot completed"></div>
+<div class="progress-dot active"></div>
+</div>
+</div>
+<section class="card" id="s4Theory">
+<h2>📖 Теоретичний блок</h2>
+<div class="theory-compact">
+<h4>🌍 Здоров'я — цінність для людини і ресурс для суспільства</h4>
+<p>Здоров'я впливає на якість життя, навчання, працю та взаємодію людей. Водночас здоров'я кожного залежить від умов у громаді й відповідальної поведінки самих людей.</p>
+</div>
+
+<div style="background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 24px 0;">
+<h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">🏘️ ВІД ЧОГО ЗАЛЕЖИТЬ ГРОМАДСЬКЕ ЗДОРОВ'Я</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+<div class="factor-card" style="background: var(--theory-blue);">
+<div class="factor-icon">🏥</div>
+<div class="factor-title">Доступність медичної допомоги</div>
+<div class="factor-desc">Лікарі, лікарні, ліки, щеплення</div>
+</div>
+<div class="factor-card" style="background: var(--theory-green);">
+<div class="factor-icon">🌳</div>
+<div class="factor-title">Умови довкілля</div>
+<div class="factor-desc">Чисте повітря, вода, санітарія, безпечне середовище</div>
+</div>
+<div class="factor-card" style="background: var(--theory-purple);">
+<div class="factor-icon">🏃</div>
+<div class="factor-title">Спосіб життя людей</div>
+<div class="factor-desc">Харчування, рух, сон, відмова від шкідливих звичок</div>
+</div>
+<div class="factor-card" style="background: var(--theory-orange);">
+<div class="factor-icon">📚</div>
+<div class="factor-title">Освіта й обізнаність</div>
+<div class="factor-desc">Знання про здоров'я і профілактику</div>
+</div>
+<div class="factor-card" style="background: var(--theory-pink);">
+<div class="factor-icon">💰</div>
+<div class="factor-title">Соціально-економічні умови</div>
+<div class="factor-desc">Доходи, умови праці, житло</div>
+</div>
+<div class="factor-card" style="background: var(--theory-yellow);">
+<div class="factor-icon">🛡️</div>
+<div class="factor-title">Безпека і підтримка в громаді</div>
+<div class="factor-desc">Громадська безпека, допомога, взаємопідтримка</div>
+</div>
+</div>
+<div style="margin-top: 16px; text-align: center; font-size: 13px; color: var(--text-muted);">
+</div>
+</div>
+
+<div class="key-point">
+💡 Особисте й громадське здоров'я пов'язані: стан кожної людини впливає на добробут спільноти, а умови життя в суспільстві — на здоров'я кожного!
+</div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="goToMainPage()">← До змісту</button>
+<button class="btn btn-primary" onclick="showS4('s4Task1')">Далі: Завдання 1 →</button>
+</div>
+</section>
+<section class="card hidden" id="s4Task1">
+<h2>📝 Завдання 1. Визнач чинники</h2>
+<div class="feedback feedback-warning mb-24">
+<strong>📌 Завдання:</strong> Обери всі чинники, що впливають на громадське здоров'я.
+</div>
+<div class="task-options" id="s4Task1Options">
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">🏥 Доступність лікарень та медичної допомоги</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">🌳 Чистота повітря та води</div></div>
+</div>
+<div class="option" data-correct="false" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">🎮 Кількість розважальних закладів</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">📚 Рівень освіти та обізнаності про здоров'я</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">🛡️ Громадська безпека та взаємопідтримка</div></div>
+</div>
+</div>
+<div id="s4Task1Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS4('s4Theory')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS4Task1()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS4Task1()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="showS4('s4Task2')">Далі: Завдання 2 →</button>
+</div>
+</section>
+<section class="card hidden" id="s4Task2">
+<h2>🔗 Завдання 2. Зв'язок особистого та громадського</h2>
+<div class="feedback feedback-warning mb-24">
+<strong>📌 Завдання:</strong> Визнач, як поведінка окремих людей впливає на громадське здоров'я.
+</div>
+<div class="true-false-container" id="s4Task2TF">
+<div class="tf-item">
+<div class="tf-statement">💉 Щеплення однієї людини захищає не лише її, а й оточуючих</div>
+<div class="tf-options">
+<div class="tf-option" data-correct="true" onclick="selectTF(this, 's4tf1')">ПРАВДА</div>
+<div class="tf-option" data-correct="false" onclick="selectTF(this, 's4tf1')">НЕПРАВДА</div>
+</div>
+</div>
+<div class="tf-item">
+<div class="tf-statement">🚬 Куріння в громадських місцях впливає лише на самого курця</div>
+<div class="tf-options">
+<div class="tf-option" data-correct="false" onclick="selectTF(this, 's4tf2')">ПРАВДА</div>
+<div class="tf-option" data-correct="true" onclick="selectTF(this, 's4tf2')">НЕПРАВДА</div>
+</div>
+</div>
+<div class="tf-item">
+<div class="tf-statement">♻️ Сортування сміття однією родиною не має значення для громади</div>
+<div class="tf-options">
+<div class="tf-option" data-correct="false" onclick="selectTF(this, 's4tf3')">ПРАВДА</div>
+<div class="tf-option" data-correct="true" onclick="selectTF(this, 's4tf3')">НЕПРАВДА</div>
+</div>
+</div>
+</div>
+<div id="s4Task2Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS4('s4Task1')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS4Task2()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS4Task2()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="showS4('s4Task3')">Далі: Завдання 3 →</button>
+</div>
+</section>
+<section class="card hidden" id="s4Task3">
+<h2>📝 Завдання 3. Ситуаційний аналіз</h2>
+<div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #fbbf24; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+<strong style="color: #92400e; font-size: 16px; display: block; margin-bottom: 8px;">📌 Ситуація:</strong>
+<p>У вашому місті з'явилася нова програма безкоштовних щеплень від грипу. Деякі жителі відмовляються, вважаючи, що це їхня особиста справа. ❓ Яке твердження відповідає принципам громадського здоров'я?</p>
+</div>
+<div class="task-options" id="s4Task3Options">
+<div class="option" data-correct="true" onclick="selectOption(this, 's4Task3Options')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text">
+<div class="option-label">🛡️ Щеплення впливає на громадське здоров'я, створюючи колективний імунітет</div>
+</div>
+</div>
+<div class="option" data-correct="false" onclick="selectOption(this, 's4Task3Options')" tabindex="0" role="radio">
+<div class="option-radio"></div>
+<div class="option-text">
+<div class="option-label">👤 Це дійсно особиста справа кожної людини</div>
+</div>
+</div>
+</div>
+<div id="s4Task3Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS4('s4Task2')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS4Task3()">✓ Перевірити</button>
+<button class="btn btn-success" onclick="showS4('s4Task4')">Далі: Завдання 4 →</button>
+</div>
+</section>
+<section class="card hidden" id="s4Task4">
+<h2>📝 Завдання 4. Твої дії для громадського здоров'я</h2>
+<div class="feedback feedback-warning mb-24">
+<strong>📌 Завдання:</strong> Обери дії, які ти можеш робити для покращення громадського здоров'я.
+</div>
+<div class="task-options" id="s4Task4Options">
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">♻️ Сортувати сміття та дбати про довкілля</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">🤝 Допомагати іншим та підтримувати однолітків</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">📢 Поширювати перевірену інформацію про здоров'я</div></div>
+</div>
+<div class="option" data-correct="false" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">🚮 Залишати сміття після себе, якщо є прибиральники</div></div>
+</div>
+</div>
+<div id="s4Task4Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS4('s4Task3')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS4Task4()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS4Task4()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="goToStep(5)">Далі: Крок 5 →</button>
+</div>
+</section>
+</main>
+
+<main class="container hidden" id="step5Page">
+<div class="step-header">
+<div class="step-header-top">
+<h2 class="step-title">💭 Крок 5. Вибір сьогодні — майбутнє завтра</h2>
+<span class="step-badge">3 завдання</span>
+</div>
+<div class="progress-dots">
+<div class="progress-dot completed"></div>
+<div class="progress-dot completed"></div>
+<div class="progress-dot completed"></div>
+<div class="progress-dot completed"></div>
+<div class="progress-dot active"></div>
+</div>
+</div>
+<section class="card" id="s5Theory">
+<h2>📖 Теоретичний блок</h2>
+<div class="theory-compact">
+<h4>⚡ Щоденні рішення мають наслідки</h4>
+<p>Щоденні рішення здаються дрібницями, але саме з них складається спосіб життя. Те, як ми харчуємося, рухаємося, відпочиваємо, спілкуємося, реагуємо на ризики й використовуємо ресурси, впливає не лише на наше самопочуття.</p>
+<p>З часом ці рішення позначаються на здоров'ї громади, безпеці середовища та якості життя майбутніх поколінь.</p>
+</div>
+
+<div style="background: white; border: 3px solid var(--warning); border-radius: 16px; padding: 24px; margin: 24px 0;">
+<h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">🔄 ЛАНЦЮГ ВПЛИВУ ЩОДЕННИХ РІШЕНЬ</h3>
+<div style="display: grid; gap: 16px;">
+<div style="background: var(--theory-green); padding: 20px; border-radius: 12px; text-align: center; border: 2px solid #86efac;">
+<div style="font-size: 36px; margin-bottom: 12px;">👨‍👩‍👧‍👦</div>
+<div style="font-weight: 700; color: var(--primary); font-size: 16px; margin-bottom: 8px;">Культура здоров'я в родині</div>
+<div style="font-size: 14px; color: var(--text-muted);">↓</div>
+<div style="font-size: 14px; font-weight: 600; color: #166534;">→ Здоровіші діти</div>
+</div>
+<div style="background: var(--theory-blue); padding: 20px; border-radius: 12px; text-align: center; border: 2px solid #93c5fd;">
+<div style="font-size: 36px; margin-bottom: 12px;">🏘️</div>
+<div style="font-weight: 700; color: var(--primary); font-size: 16px; margin-bottom: 8px;">Здоровіша громада</div>
+<div style="font-size: 14px; color: var(--text-muted);">↓</div>
+<div style="font-size: 14px; font-weight: 600; color: #1e40af;">→ Безпечніше середовище, взаємодопомога</div>
+</div>
+<div style="background: var(--theory-purple); padding: 20px; border-radius: 12px; text-align: center; border: 2px solid #d8b4fe;">
+<div style="font-size: 36px; margin-bottom: 12px;">🌱</div>
+<div style="font-weight: 700; color: var(--primary); font-size: 16px; margin-bottom: 8px;">Чистіше довкілля</div>
+<div style="font-size: 14px; color: var(--text-muted);">↓</div>
+<div style="font-size: 14px; font-weight: 600; color: #6b21a8;">→ Кращі умови життя</div>
+</div>
+</div>
+
+<div style="margin-top: 16px; text-align: center; font-size: 13px; color: var(--text-muted);">
+<img src="https://res.cloudinary.com/dmydvhkzr/image/upload/v1784656734/12-04_rnd20e.png" alt="Ситуація з Максимом" class="situation-img">
+</div>
+</div>
+
+<div class="key-point">
+🌟 Майбутнє починається з маленьких виборів, які ми робимо сьогодні!
+</div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="goToMainPage()">← До змісту</button>
+<button class="btn btn-primary" onclick="showS5('s5Task1')">Далі: Завдання 1 →</button>
+</div>
+</section>
+<section class="card hidden" id="s5Task1">
+<h2>🔗 Завдання 1. Ланцюг впливу</h2>
+<div class="feedback feedback-warning mb-24">
+<strong>📌 Завдання:</strong> Склади ланцюг впливу одного щоденного рішення за схемою: <strong>рішення → вплив на себе → вплив на суспільство → вплив на майбутнє</strong>
+</div>
+<div class="drag-container">
+<div class="drag-source">
+<h4>📦 Елементи:</h4>
+<div id="s5DragItems1">
+<div class="drag-item" draggable="true" data-step="4">
+<div class="drag-item-step">?</div>
+<div>🌟 Приклад для майбутніх поколінь</div>
+</div>
+<div class="drag-item" draggable="true" data-step="1">
+<div class="drag-item-step">?</div>
+<div>🤝 Допомога іншим (рішення)</div>
+</div>
+<div class="drag-item" draggable="true" data-step="3">
+<div class="drag-item-step">?</div>
+<div>🏘️ Взаємодопомога в суспільстві</div>
+</div>
+<div class="drag-item" draggable="true" data-step="2">
+<div class="drag-item-step">?</div>
+<div>✅ Відповідальна поведінка (вплив на себе)</div>
+</div>
+</div>
+</div>
+<div class="drag-target">
+<h4>🔢 Правильний порядок:</h4>
+<div id="s5DropZones1">
+<div class="drop-zone" data-position="1"><div class="drop-zone-number">1</div><div class="drop-zone-text">Перетягни сюди</div></div>
+<div class="drop-zone" data-position="2"><div class="drop-zone-number">2</div><div class="drop-zone-text">Перетягни сюди</div></div>
+<div class="drop-zone" data-position="3"><div class="drop-zone-number">3</div><div class="drop-zone-text">Перетягни сюди</div></div>
+<div class="drop-zone" data-position="4"><div class="drop-zone-number">4</div><div class="drop-zone-text">Перетягни сюди</div></div>
+</div>
+</div>
+</div>
+<div id="s5Task1Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS5('s5Theory')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS5Task1()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS5Task1()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="showS5('s5Task2')">Далі: Завдання 2 →</button>
+</div>
+</section>
+<section class="card hidden" id="s5Task2">
+<h2>📝 Завдання 2. Аналіз ситуації</h2>
+<div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #fbbf24; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+<strong style="color: #92400e; font-size: 16px; display: block; margin-bottom: 8px;">📌 Ситуація:</strong>
+<p>Ярослав побачив у соцмережі тривожне повідомлення про небезпеку в місті. Він хотів одразу переслати його друзям, але спочатку перевірив інформацію в офіційних джерелах. Виявилося, що повідомлення неправдиве.</p>
+</div>
+<div class="task-options" id="s5Task2Options">
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text">
+<div class="option-label">✅ Ярослав вчинив правильно — перевірив інформацію перед поширенням</div>
+</div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text">
+<div class="option-label">🛡️ Це запобігло паніці серед друзів та в громаді</div>
+</div>
+</div>
+<div class="option" data-correct="false" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text">
+<div class="option-label">❌ Ярослав мав одразу попередити друзів, не витрачаючи час на перевірку</div>
+</div>
+</div>
+</div>
+<div id="s5Task2Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS5('s5Task1')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS5Task2()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS5Task2()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="showS5('s5Task3')">Далі: Завдання 3 →</button>
+</div>
+</section>
+<section class="card hidden" id="s5Task3">
+<h2>📝 Завдання 3. Щоденні рішення</h2>
+<div class="feedback feedback-warning mb-24">
+<strong>📌 Завдання:</strong> Обери щоденні рішення, які можуть позитивно вплинути на людей .
+</div>
+<div class="task-options" id="s5Task3Options">
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">😴 Лягати спати вчасно, щоб виспатися</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">🏃 Щодня рухатися не менше 30 хвилин</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">🤝 Підтримувати друзів у складних ситуаціях</div></div>
+</div>
+<div class="option" data-correct="true" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">📱 Робити перерви від екранів</div></div>
+</div>
+<div class="option" data-correct="false" onclick="toggleOption(this)" tabindex="0">
+<div class="option-checkbox"></div>
+<div class="option-text"><div class="option-label">🍔 Їсти фастфуд щодня, бо це смачно і швидко</div></div>
+</div>
+</div>
+<div id="s5Task3Feedback" class="feedback" style="display:none;"></div>
+<div class="navigation">
+<button class="btn btn-secondary" onclick="showS5('s5Task2')">← Назад</button>
+<button class="btn btn-primary" onclick="checkS5Task3()">✓ Перевірити</button>
+<button class="btn btn-warning" onclick="retryS5Task3()">🔄 Спробувати ще раз</button>
+<button class="btn btn-success" onclick="goToStep(6)">Завершити →</button>
+</div>
+</section>
+</main>
+
+<main class="container hidden" id="step6Page">
+<div class="step6-header">
+<h2>🎉 Вітаємо! Ти завершив(ла) параграф!</h2>
+<p>Час дізнатися свій рівень та підсумки навчання</p>
+</div>
+<div class="card">
+<h2>⭐ Оціни свої вміння</h2>
+<p style="margin-bottom: 20px; color: var(--text-muted);">Оціни, наскільки ти впевнений(а) у кожному з умінь:</p>
+<div class="skill-eval">
+<div class="skill-title">🧬 Я розумію біопсихосоціальний підхід до здоров'я</div>
+<div class="star-rating" data-skill="1">
+<span class="star" onclick="rate(1, 1)">★</span>
+<span class="star" onclick="rate(1, 2)">★</span>
+<span class="star" onclick="rate(1, 3)">★</span>
+<span class="star" onclick="rate(1, 4)">★</span>
+<span class="star" onclick="rate(1, 5)">★</span>
+</div>
+</div>
+<div class="skill-eval">
+<div class="skill-title">🔗 Я можу пояснити, як взаємопов'язані складники здоров'я</div>
+<div class="star-rating" data-skill="2">
+<span class="star" onclick="rate(2, 1)">★</span>
+<span class="star" onclick="rate(2, 2)">★</span>
+<span class="star" onclick="rate(2, 3)">★</span>
+<span class="star" onclick="rate(2, 4)">★</span>
+<span class="star" onclick="rate(2, 5)">★</span>
+</div>
+</div>
+<div class="skill-eval">
+<div class="skill-title">👥 Я розумію різницю між особистим і громадським здоров'ям</div>
+<div class="star-rating" data-skill="3">
+<span class="star" onclick="rate(3, 1)">★</span>
+<span class="star" onclick="rate(3, 2)">★</span>
+<span class="star" onclick="rate(3, 3)">★</span>
+<span class="star" onclick="rate(3, 4)">★</span>
+<span class="star" onclick="rate(3, 5)">★</span>
+</div>
+</div>
+<div class="skill-eval">
+<div class="skill-title">💭 Я усвідомлюю вплив щоденних рішень на здоров'я</div>
+<div class="star-rating" data-skill="4">
+<span class="star" onclick="rate(4, 1)">★</span>
+<span class="star" onclick="rate(4, 2)">★</span>
+<span class="star" onclick="rate(4, 3)">★</span>
+<span class="star" onclick="rate(4, 4)">★</span>
+<span class="star" onclick="rate(4, 5)">★</span>
+</div>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-value" id="statTasks">0/15</div><div class="stat-label">✅ Виконано завдань</div></div>
+<div class="stat-card"><div class="stat-value" id="statCorrect">0</div><div class="stat-label">🎯 Правильних відповідей</div></div>
+<div class="stat-card"><div class="stat-value" id="statSteps">0/5</div><div class="stat-label">🏆 Кроків пройдено</div></div>
+<div class="stat-card"><div class="stat-value" id="statAccuracy">0%</div><div class="stat-label">🏅 Точність</div></div>
+</div>
+<div class="progress-circle-container">
+<div class="progress-circle" id="progressCircle">
+<div class="progress-circle-inner">
+<div class="circle-percentage" id="circlePercentage">0%</div>
+<div class="circle-label">Загальний прогрес</div>
+</div>
+</div>
+</div>
+<div class="card">
+<h3 style="margin-bottom: 16px; text-align: center;">📋 Твій шлях: 5 кроків до розуміння цінності здоров'я</h3>
+<div class="steps-summary" id="stepsSummary"></div>
+</div>
+<div style="text-align: center;">
+<div class="level-badge" id="finalBadge">
+<div class="level-badge-icon">⭐</div>
+<div class="level-badge-text">
+<div class="level-badge-title" id="finalLevelTitle">Початківець</div>
+<div class="level-badge-desc" id="finalLevelDesc">⭐☆☆☆☆</div>
+</div>
+</div>
+</div>
+<div class="tip-card">
+💡 <strong>Кожен новий крок відкриває нові можливості.</strong><br>
+📚 Знання, уважність і практика допомагають досягати успіху.<br>
+🚀 Продовжуй навчатися, і твої вміння ставатимуть ще сильнішими.
+</div>
+<div class="navigation">
+<button class="btn btn-warning" onclick="resetProgress()">🔄 Пройти ще раз</button>
+<button class="btn btn-primary" onclick="goToMainPage()">🏠 На головну</button>
+</div>
+</main>
+
+<div class="modal-overlay" id="progressModal" role="dialog" aria-modal="true" aria-labelledby="progressTitle">
+<div class="modal">
+<div class="modal-header">
+<h2 id="progressTitle">📊 Мій прогрес</h2>
+<button class="modal-close" onclick="closeModal('progressModal')">×</button>
+</div>
+<div class="text-center">
+<div style="font-size: 48px; margin-bottom: 16px;" id="modalLevelEmoji">⭐☆☆☆☆</div>
+<h3 style="color: var(--primary); margin-bottom: 24px;" id="modalLevelName">Початківець</h3>
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px;">
+<div style="background: var(--bg); padding: 14px; border-radius: 12px;">
+<div style="font-size: 24px; font-weight: 700; color: var(--accent);" id="modalTasks">0/15</div>
+<div style="font-size: 12px; color: var(--text-muted);">Завдань</div>
+</div>
+<div style="background: var(--bg); padding: 14px; border-radius: 12px;">
+<div style="font-size: 24px; font-weight: 700; color: var(--success);" id="modalCorrect">0</div>
+<div style="font-size: 12px; color: var(--text-muted);">Правильних</div>
+</div>
+<div style="background: var(--bg); padding: 14px; border-radius: 12px;">
+<div style="font-size: 24px; font-weight: 700; color: var(--warning);" id="modalSteps">0/5</div>
+<div style="font-size: 12px; color: var(--text-muted);">Кроків</div>
+</div>
+<div style="background: var(--bg); padding: 14px; border-radius: 12px;">
+<div style="font-size: 24px; font-weight: 700; color: var(--primary);" id="modalAccuracy">0%</div>
+<div style="font-size: 12px; color: var(--text-muted);">Точність</div>
+</div>
+</div>
+<div style="background: var(--border); height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 12px;">
+<div id="modalProgressBar" style="height: 100%; background: linear-gradient(90deg, var(--accent), var(--success)); width: 0%; transition: width 0.5s ease;"></div>
+</div>
+<p style="text-align: center; font-weight: 600; color: var(--primary);">
+Загальний прогрес: <span id="modalProgressPercent">0%</span>
+</p>
+</div>
+</div>
+</div>
+
+<div class="modal-overlay" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+<div class="modal">
+<div class="modal-header">
+<h2 id="helpTitle">❓ Як працювати</h2>
+<button class="modal-close" onclick="closeModal('helpModal')">×</button>
+</div>
+<div class="feature-list">
+<div data-icon="🎯" style="padding: 10px 0; padding-left: 32px; position: relative; border-bottom: 1px solid var(--border);">
+<strong>Як почати?</strong><br>
+Натисни «Розпочати параграф» або обери крок у навігації.
+</div>
+<div data-icon="✅" style="padding: 10px 0; padding-left: 32px; position: relative; border-bottom: 1px solid var(--border);">
+<strong>Як проходити?</strong><br>
+Читай теорію та виконуй практичні завдання.
+</div>
+<div data-icon="📊" style="padding: 10px 0; padding-left: 32px; position: relative; border-bottom: 1px solid var(--border);">
+<strong>Аналізуй ситуації</strong><br>
+Думай про здоров'я та правильні рішення.
+</div>
+<div data-icon="🏆" style="padding: 10px 0; padding-left: 32px; position: relative;">
+<strong>Отримай відзнаку</strong><br>
+Після завершення — оціни свій прогрес.
+</div>
+</div>
+<button class="btn btn-primary mt-24" onclick="closeModal('helpModal')" style="width: 100%;">Зрозуміло!</button>
+</div>
+</div>
+
+<script>
+let draggedItem = null;
+let draggedClone = null;
+let currentDropTarget = null;
+let touchOffsetX = 0;
+let touchOffsetY = 0;
+const tfSelections = {};
+
+function initUniversalDragDrop(dragContainerId, dropZones, dropHandler) {
+const dragItems = document.querySelectorAll(`#${dragContainerId} .drag-item`);
+const zones = typeof dropZones === 'string' ? document.querySelectorAll(dropZones) : dropZones;
+dragItems.forEach(item => {
+item.addEventListener('dragstart', dragStart);
+item.addEventListener('dragend', dragEnd);
+item.addEventListener('touchstart', touchStart, { passive: false });
+item.addEventListener('touchmove', touchMove, { passive: false });
+item.addEventListener('touchend', touchEnd, { passive: false });
+});
+zones.forEach(zone => {
+zone.addEventListener('dragover', dragOver);
+zone.addEventListener('dragleave', dragLeave);
+zone.addEventListener('drop', (e) => dropHandler.call(zone, e));
+zone._dropHandler = dropHandler;
+});
+}
+function dragStart(e) {
+draggedItem = this;
+setTimeout(() => this.classList.add('dragging'), 0);
+}
+function dragEnd(e) {
+this.classList.remove('dragging');
+draggedItem = null;
+}
+function dragOver(e) { e.preventDefault(); this.classList.add('drag-over'); }
+function dragLeave(e) { this.classList.remove('drag-over'); }
+function touchStart(e) {
+e.preventDefault();
+draggedItem = this;
+const touch = e.touches[0];
+const rect = this.getBoundingClientRect();
+touchOffsetX = touch.clientX - rect.left;
+touchOffsetY = touch.clientY - rect.top;
+draggedClone = this.cloneNode(true);
+draggedClone.style.position = 'fixed';
+draggedClone.style.left = (touch.clientX - touchOffsetX) + 'px';
+draggedClone.style.top = (touch.clientY - touchOffsetY) + 'px';
+draggedClone.style.width = rect.width + 'px';
+draggedClone.style.zIndex = '9999';
+draggedClone.style.opacity = '0.85';
+draggedClone.style.pointerEvents = 'none';
+draggedClone.style.transform = 'rotate(2deg) scale(1.05)';
+document.body.appendChild(draggedClone);
+this.style.opacity = '0.3';
+}
+function touchMove(e) {
+e.preventDefault();
+if (!draggedClone) return;
+const touch = e.touches[0];
+draggedClone.style.left = (touch.clientX - touchOffsetX) + 'px';
+draggedClone.style.top = (touch.clientY - touchOffsetY) + 'px';
+draggedClone.style.display = 'none';
+const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+draggedClone.style.display = '';
+const zone = elementBelow ? elementBelow.closest('.drop-zone') : null;
+document.querySelectorAll('.drop-zone.drag-over').forEach(z => {
+if (z !== zone) z.classList.remove('drag-over');
+});
+if (zone) {
+zone.classList.add('drag-over');
+currentDropTarget = zone;
+} else {
+currentDropTarget = null;
+}
+}
+function touchEnd(e) {
+e.preventDefault();
+if (!draggedItem) return;
+if (draggedClone) {
+draggedClone.remove();
+draggedClone = null;
+}
+draggedItem.style.opacity = '';
+if (currentDropTarget) {
+currentDropTarget.classList.remove('drag-over');
+const dropHandler = currentDropTarget._dropHandler || dropGeneric;
+dropHandler.call(currentDropTarget, { preventDefault: () => {} });
+}
+draggedItem = null;
+currentDropTarget = null;
+}
+function dropGeneric(e) {}
+
+const stepTracker = {
+step1: { total: 1, completed: 0, tasks: { task1: false } },
+step2: { total: 3, completed: 0, tasks: { task1: false, task2: false, task3: false } },
+step3: { total: 4, completed: 0, tasks: { task1: false, task2: false, task3: false, task4: false } },
+step4: { total: 4, completed: 0, tasks: { task1: false, task2: false, task3: false, task4: false } },
+step5: { total: 3, completed: 0, tasks: { task1: false, task2: false, task3: false } }
+};
+const stepsCompleted = { 1: false, 2: false, 3: false, 4: false, 5: false };
+const progressTracker = { correct: 0, total: 0, answered: new Set() };
+const state = { currentStep: 0, selfRatings: [0, 0, 0, 0] };
+
+function addCorrect(taskId) {
+if (progressTracker.answered.has(taskId)) return false;
+progressTracker.answered.add(taskId);
+progressTracker.correct++;
+progressTracker.total++;
+updateStepTrackerFromTask(taskId);
+updateLiveProgress();
+saveProgress();
+return true;
+}
+function updateStepTrackerFromTask(taskId) {
+if (taskId === 'step1_task1') { stepTracker.step1.tasks.task1 = true; updateStepProgress(1); }
+if (taskId === 'step2_task1') { stepTracker.step2.tasks.task1 = true; updateStepProgress(2); }
+if (taskId === 'step2_task2') { stepTracker.step2.tasks.task2 = true; updateStepProgress(2); }
+if (taskId === 'step2_task3') { stepTracker.step2.tasks.task3 = true; updateStepProgress(2); }
+if (taskId === 'step3_task1') { stepTracker.step3.tasks.task1 = true; updateStepProgress(3); }
+if (taskId === 'step3_task2') { stepTracker.step3.tasks.task2 = true; updateStepProgress(3); }
+if (taskId === 'step3_task3') { stepTracker.step3.tasks.task3 = true; updateStepProgress(3); }
+if (taskId === 'step3_task4') { stepTracker.step3.tasks.task4 = true; updateStepProgress(3); }
+if (taskId === 'step4_task1') { stepTracker.step4.tasks.task1 = true; updateStepProgress(4); }
+if (taskId === 'step4_task2') { stepTracker.step4.tasks.task2 = true; updateStepProgress(4); }
+if (taskId === 'step4_task3') { stepTracker.step4.tasks.task3 = true; updateStepProgress(4); }
+if (taskId === 'step4_task4') { stepTracker.step4.tasks.task4 = true; updateStepProgress(4); }
+if (taskId === 'step5_task1') { stepTracker.step5.tasks.task1 = true; updateStepProgress(5); }
+if (taskId === 'step5_task2') { stepTracker.step5.tasks.task2 = true; updateStepProgress(5); }
+if (taskId === 'step5_task3') { stepTracker.step5.tasks.task3 = true; updateStepProgress(5); }
+}
+function updateStepProgress(stepNum) {
+const step = stepTracker['step' + stepNum];
+const completedTasks = Object.values(step.tasks).filter(v => v).length;
+step.completed = completedTasks;
+if (completedTasks === step.total && !stepsCompleted[stepNum]) {
+stepsCompleted[stepNum] = true;
+showToast(`🎉 Крок ${stepNum} завершено!`, '🏆');
+}
+updateStep6Display();
+}
+function updateLiveProgress() {
+const totalTasks = 15;
+let completedTasks = 0;
+for (let i = 1; i <= 5; i++) completedTasks += stepTracker['step' + i].completed;
+const percent = Math.min(100, Math.round((completedTasks / totalTasks) * 100));
+const topBar = document.getElementById('topProgressBar');
+if (topBar) topBar.style.width = percent + '%';
+const widgetPercent = document.getElementById('widgetPercentage');
+const widgetTasks = document.getElementById('widgetTasks');
+if (widgetPercent) widgetPercent.textContent = percent + '%';
+if (widgetTasks) widgetTasks.textContent = `${completedTasks}/${totalTasks}`;
+const miniMap = document.getElementById('widgetMiniMap');
+if (miniMap) {
+miniMap.innerHTML = '';
+for (let i = 1; i <= 6; i++) {
+const dot = document.createElement('div');
+dot.className = 'mini-step';
+dot.textContent = i;
+if (i <= 5 && stepsCompleted[i]) { dot.classList.add('completed'); dot.innerHTML = '✓'; }
+else if (state.currentStep === i) { dot.classList.add('current'); }
+miniMap.appendChild(dot);
+}
+}
+renderStepNavigation();
+updateStep6Display();
+}
+function loadProgress() {
+const saved = localStorage.getItem('section12Progress_v4');
+if (saved) {
+try {
+const data = JSON.parse(saved);
+if (data.progressTracker) {
+progressTracker.correct = data.progressTracker.correct || 0;
+progressTracker.total = data.progressTracker.total || 0;
+progressTracker.answered = new Set(data.progressTracker.answered || []);
+}
+if (data.stepTracker) {
+for (let i = 1; i <= 5; i++) {
+if (data.stepTracker['step' + i]) {
+stepTracker['step' + i].completed = data.stepTracker['step' + i].completed || 0;
+stepTracker['step' + i].tasks = data.stepTracker['step' + i].tasks || stepTracker['step' + i].tasks;
+}
+}
+}
+if (data.stepsCompleted) {
+for (let i = 1; i <= 5; i++) stepsCompleted[i] = data.stepsCompleted[i] || false;
+}
+if (data.state) {
+state.currentStep = data.state.currentStep || 0;
+state.selfRatings = data.state.selfRatings || [0, 0, 0, 0];
+}
+} catch (e) { console.error('Помилка завантаження:', e); }
+}
+updateLiveProgress();
+renderStepNavigation();
+}
+function saveProgress() {
+const data = {
+progressTracker: {
+correct: progressTracker.correct,
+total: progressTracker.total,
+answered: Array.from(progressTracker.answered)
+},
+stepTracker: stepTracker,
+stepsCompleted: stepsCompleted,
+state: state
+};
+localStorage.setItem('section12Progress_v4', JSON.stringify(data));
+}
+
+const steps = [
+{ id: 1, icon: '🎯', title: `Стартове завдання`, tasks: 1 },
+{ id: 2, icon: '🧬', title: `Біопсихосоціальний підхід`, tasks: 3 },
+{ id: 3, icon: '🔗', title: `Взаємозв'язки здоров'я`, tasks: 4 },
+{ id: 4, icon: '👥', title: `Особисте і громадське`, tasks: 4 },
+{ id: 5, icon: '💭', title: `Щоденні рішення`, tasks: 3 },
+{ id: 6, icon: '🏆', title: `Самооцінювання`, tasks: 0 }
+];
+
+function renderStepNavigation() {
+const nav = document.getElementById('stepNavigation');
+if (!nav) return;
+nav.innerHTML = '';
+steps.forEach((step, index) => {
+const item = document.createElement('div');
+item.className = 'step-nav-item';
+const tasksDone = step.tasks > 0 ? stepTracker['step' + step.id].completed : 0;
+const isCompleted = step.tasks > 0 && stepsCompleted[step.id];
+if (step.tasks === 0 && step.id === 6) {
+if (stepsCompleted[5]) item.classList.add('completed');
+else if (state.currentStep === 6) item.classList.add('active');
+} else if (isCompleted) {
+item.classList.add('completed');
+} else if (index === state.currentStep - 1) {
+item.classList.add('active');
+}
+const statusText = step.tasks > 0 ? `${tasksDone}/${step.tasks} завдань` : 'Фінал';
+item.innerHTML = `
+<div class="step-nav-number">${isCompleted ? '' : (index + 1)}</div>
+<div class="step-nav-content">
+<div class="step-nav-title">${step.icon} ${step.title}</div>
+<div class="step-nav-status">${statusText}</div>
+</div>
+`;
+item.onclick = () => goToStep(index + 1);
+item.setAttribute('tabindex', '0');
+item.setAttribute('role', 'button');
+item.onkeydown = (e) => {
+if (e.key === 'Enter' || e.key === ' ') {
+e.preventDefault();
+goToStep(index + 1);
+}
+};
+nav.appendChild(item);
+});
+}
+
+function updateStep6Display() {
+const totalTasks = 15;
+let completedTasks = 0;
+for (let i = 1; i <= 5; i++) completedTasks += stepTracker['step' + i].completed;
+const percent = Math.min(100, Math.round((completedTasks / totalTasks) * 100));
+const accuracy = progressTracker.total > 0
+? Math.round((progressTracker.correct / progressTracker.total) * 100) : 0;
+const completedSteps = Object.values(stepsCompleted).filter(v => v).length;
+const elTasks = document.getElementById('statTasks');
+const elCorrect = document.getElementById('statCorrect');
+const elSteps = document.getElementById('statSteps');
+const elAccuracy = document.getElementById('statAccuracy');
+if (elTasks) elTasks.textContent = `${completedTasks}/${totalTasks}`;
+if (elCorrect) elCorrect.textContent = progressTracker.correct;
+if (elSteps) elSteps.textContent = `${completedSteps}/5`;
+if (elAccuracy) elAccuracy.textContent = `${accuracy}%`;
+const circle = document.getElementById('progressCircle');
+const circlePercentage = document.getElementById('circlePercentage');
+if (circle) circle.style.background = `conic-gradient(var(--success) ${percent}%, var(--bg) ${percent}%)`;
+if (circlePercentage) circlePercentage.textContent = `${percent}%`;
+let level = 'Початківець', emoji = '⭐☆☆☆☆';
+if (percent >= 76) { level = `Експерт зі здоров'я`; emoji = '⭐⭐⭐⭐⭐'; }
+else if (percent >= 51) { level = 'Досвідчений учень'; emoji = '⭐⭐⭐☆☆'; }
+else if (percent >= 26) { level = 'Учень'; emoji = '⭐⭐☆☆☆'; }
+const elLevel = document.getElementById('finalLevelTitle');
+const elEmoji = document.getElementById('finalLevelDesc');
+if (elLevel) elLevel.textContent = level;
+if (elEmoji) elEmoji.textContent = emoji;
+const stepsSummary = document.getElementById('stepsSummary');
+if (stepsSummary) {
+stepsSummary.innerHTML = '';
+const stepsInfo = [
+{ icon: '🎯', title: `Стартове завдання`, tasks: 1 },
+{ icon: '🧬', title: `Біопсихосоціальний підхід`, tasks: 3 },
+{ icon: '🔗', title: `Взаємозв'язки здоров'я`, tasks: 4 },
+{ icon: '👥', title: `Особисте і громадське`, tasks: 4 },
+{ icon: '💭', title: `Щоденні рішення`, tasks: 3 }
+];
+stepsInfo.forEach((step, index) => {
+const tasksDone = step.tasks > 0 ? stepTracker['step' + (index + 1)].completed : 0;
+const isCompleted = stepsCompleted[index + 1];
+const stepCard = document.createElement('div');
+stepCard.className = 'step-card';
+stepCard.innerHTML = `
+<div class="step-card-icon">${step.icon}</div>
+<div class="step-card-info">
+<div class="step-card-title">${step.title}</div>
+<div class="step-card-status ${isCompleted ? 'completed' : ''}">
+${tasksDone}/${step.tasks} завдань виконано ${isCompleted ? '✅' : ''}
+</div>
+</div>
+`;
+stepsSummary.appendChild(stepCard);
+});
+}
+state.selfRatings.forEach((rating, idx) => { if (rating > 0) rate(idx + 1, rating); });
+}
+
+function hideAllPages() {
+['mainPage', 'step1Page', 'step2Page', 'step3Page', 'step4Page', 'step5Page', 'step6Page'].forEach(id => {
+const el = document.getElementById(id);
+if (el) el.classList.add('hidden');
+});
+}
+function goToMainPage() {
+hideAllPages();
+const mainPage = document.getElementById('mainPage');
+if (mainPage) {
+mainPage.classList.remove('hidden');
+mainPage.style.display = 'block';
+}
+document.getElementById('headerTitle').textContent = `🌟 § 14. Цінність здоров'я`;
+state.currentStep = 0;
+saveProgress();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function goToStep(stepNumber) {
+hideAllPages();
+if (stepNumber === 1) {
+document.getElementById('step1Page').classList.remove('hidden');
+document.getElementById('headerTitle').textContent = `🎯 § 14. Цінність здоров'я`;
+state.currentStep = 1;
+} else if (stepNumber === 2) {
+document.getElementById('step2Page').classList.remove('hidden');
+document.getElementById('headerTitle').textContent = `🧬 § 14. Цінність здоров'я`;
+state.currentStep = 2;
+showS2('s2Theory');
+} else if (stepNumber === 3) {
+document.getElementById('step3Page').classList.remove('hidden');
+document.getElementById('headerTitle').textContent = `🔗 § 14. Цінність здоров'я`;
+state.currentStep = 3;
+showS3('s3Theory');
+} else if (stepNumber === 4) {
+document.getElementById('step4Page').classList.remove('hidden');
+document.getElementById('headerTitle').textContent = `👥 § 14. Цінність здоров'я`;
+state.currentStep = 4;
+showS4('s4Theory');
+} else if (stepNumber === 5) {
+document.getElementById('step5Page').classList.remove('hidden');
+document.getElementById('headerTitle').textContent = `💭 § 14. Цінність здоров'я`;
+state.currentStep = 5;
+showS5('s5Theory');
+} else if (stepNumber === 6) {
+document.getElementById('step6Page').classList.remove('hidden');
+document.getElementById('headerTitle').textContent = '🏆 Самооцінювання';
+state.currentStep = 6;
+updateStep6Display();
+} else {
+document.getElementById('mainPage').classList.remove('hidden');
+return;
+}
+saveProgress();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showS2(id) {
+['s2Theory', 's2Task1', 's2Task2', 's2Task3'].forEach(s => {
+const el = document.getElementById(s);
+if (el) el.classList.add('hidden');
+});
+const target = document.getElementById(id);
+if (target) target.classList.remove('hidden');
+if (id === 's2Task2') initS2DragAndDrop1();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showS3(id) {
+['s3Theory', 's3Task1', 's3Task2', 's3Task3', 's3Task4'].forEach(s => {
+const el = document.getElementById(s);
+if (el) el.classList.add('hidden');
+});
+const target = document.getElementById(id);
+if (target) target.classList.remove('hidden');
+if (id === 's3Task2') initS3DragAndDrop2();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showS4(id) {
+['s4Theory', 's4Task1', 's4Task2', 's4Task3', 's4Task4'].forEach(s => {
+const el = document.getElementById(s);
+if (el) el.classList.add('hidden');
+});
+const target = document.getElementById(id);
+if (target) target.classList.remove('hidden');
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showS5(id) {
+['s5Theory', 's5Task1', 's5Task2', 's5Task3'].forEach(s => {
+const el = document.getElementById(s);
+if (el) el.classList.add('hidden');
+});
+const target = document.getElementById(id);
+if (target) target.classList.remove('hidden');
+if (id === 's5Task1') initS5DragAndDrop1();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function toggleOption(element) {
+if (element.classList.contains('disabled')) return;
+element.classList.toggle('selected');
+}
+function selectOption(element, groupId) {
+if (element.classList.contains('disabled')) return;
+document.querySelectorAll(`#${groupId} .option`).forEach(opt => {
+opt.classList.remove('selected');
+opt.setAttribute('aria-checked', 'false');
+});
+element.classList.add('selected');
+element.setAttribute('aria-checked', 'true');
+}
+function selectTF(element, groupId) {
+if (element.classList.contains('correct') || element.classList.contains('incorrect')) return;
+const container = element.closest('.tf-item');
+container.querySelectorAll('.tf-option').forEach(opt => opt.classList.remove('selected'));
+element.classList.add('selected');
+tfSelections[groupId] = element;
+}
+
+function checkS1Task1() {
+const selected = document.querySelector('#s1Task1Options .option.selected');
+const feedback = document.getElementById('s1Task1Feedback');
+feedback.style.display = 'block';
+if (!selected) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери один варіант відповіді';
+return;
+}
+const isCorrect = selected.dataset.correct === 'true';
+if (isCorrect) {
+selected.classList.add('correct');
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Проблема Максима пов'язана з психологічною та соціальною адаптацією. Медичні аналізи не можуть показати емоційний стан та якість стосунків!`;
+document.querySelectorAll('#s1Task1Options .option').forEach(opt => {
+opt.classList.add('disabled');
+if (opt.dataset.correct === 'true') opt.classList.add('correct');
+});
+addCorrect('step1_task1');
+showToast('🎉 Перше завдання виконано!');
+} else {
+selected.classList.add('incorrect');
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = `<strong>❌ Неправильно.</strong> Подумай: медичні аналізи показали норму, отже проблема не у фізичному здоров'ї.`;
+}
+}
+
+function initS2DragAndDrop1() {
+initUniversalDragDrop('s2DragItems1', '#s2DropZones1 .drop-zone', dropS2Order1);
+}
+function dropS2Order1(e) {
+e.preventDefault();
+this.classList.remove('drag-over');
+if (draggedItem) {
+if (this.classList.contains('filled')) {
+const existingText = this.querySelector('.drop-zone-text').textContent;
+const existingComponent = this.dataset.component;
+const newItem = document.createElement('div');
+newItem.className = 'drag-item';
+newItem.draggable = true;
+newItem.dataset.component = existingComponent;
+newItem.innerHTML = `<div class="drag-item-step">?</div><div>${existingText}</div>`;
+newItem.addEventListener('dragstart', dragStart);
+newItem.addEventListener('dragend', dragEnd);
+newItem.addEventListener('touchstart', touchStart, { passive: false });
+newItem.addEventListener('touchmove', touchMove, { passive: false });
+newItem.addEventListener('touchend', touchEnd, { passive: false });
+document.getElementById('s2DragItems1').appendChild(newItem);
+}
+const itemText = draggedItem.querySelector('div:last-child').textContent;
+this.innerHTML = `<div class="drop-zone-number">${this.dataset.position}</div><div class="drop-zone-text">${itemText}</div>`;
+this.classList.add('filled');
+this.dataset.component = draggedItem.dataset.component;
+draggedItem.remove();
+draggedItem = null;
+}
+}
+function checkS2Task1() {
+const situations = ['s2Task1Item1', 's2Task1Item2', 's2Task1Item3'];
+let allCorrect = true;
+let allAnswered = true;
+const feedback = document.getElementById('s2Task1Feedback');
+situations.forEach((sitId) => {
+const selected = document.querySelector(`#${sitId} .option.selected`);
+if (!selected) { allAnswered = false; return; }
+const isCorrect = selected.dataset.correct === 'true';
+if (isCorrect) selected.classList.add('correct');
+else {
+selected.classList.add('incorrect');
+allCorrect = false;
+const correctOption = document.querySelector(`#${sitId} .option[data-correct="true"]`);
+if (correctOption) correctOption.classList.add('correct');
+}
+document.querySelectorAll(`#${sitId} .option`).forEach(opt => opt.classList.add('disabled'));
+});
+feedback.style.display = 'block';
+if (!allAnswered) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери відповідь для кожного прояву!';
+return;
+}
+if (allCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Чудово!</strong> Ти правильно визначив(ла) складники здоров'я!`;
+addCorrect('step2_task1');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Є помилки.</strong> Правильні відповіді виділено зеленим.';
+}
+}
+function retryS2Task1() {
+if (progressTracker.answered.has('step2_task1')) { showToast('✅ Це завдання вже зараховано!'); return; }
+['s2Task1Item1', 's2Task1Item2', 's2Task1Item3'].forEach(sitId => {
+document.querySelectorAll(`#${sitId} .option`).forEach(opt => {
+opt.classList.remove('selected', 'correct', 'incorrect', 'disabled');
+});
+});
+document.getElementById('s2Task1Feedback').style.display = 'none';
+showToast('🔄 Спробуй ще раз');
+}
+function checkS2Task2() {
+const dropZones = document.querySelectorAll('#s2DropZones1 .drop-zone');
+const feedback = document.getElementById('s2Task2Feedback');
+feedback.style.display = 'block';
+let allFilled = true;
+dropZones.forEach(zone => {
+if (!zone.classList.contains('filled')) { allFilled = false; return; }
+});
+if (!allFilled) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Заповни всі позиції (1-2-3)!';
+return;
+}
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Усі три складники разом утворюють біопсихосоціальну модель здоров'я!`;
+addCorrect('step2_task2');
+}
+function retryS2Task2() {
+if (progressTracker.answered.has('step2_task2')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s2DropZones1 .drop-zone').forEach(zone => {
+zone.classList.remove('filled', 'correct', 'incorrect');
+zone.innerHTML = `<div class="drop-zone-number">${zone.dataset.position}</div><div class="drop-zone-text">Перетягни сюди</div>`;
+delete zone.dataset.component;
+});
+const dragItemsContainer = document.getElementById('s2DragItems1');
+dragItemsContainer.innerHTML = `
+<div class="drag-item" draggable="true" data-component="social"><div class="drag-item-step">?</div><div>👥 Соціальний (стосунки, підтримка)</div></div>
+<div class="drag-item" draggable="true" data-component="biological"><div class="drag-item-step">?</div><div>🧬 Біологічний (організм, фізіологія)</div></div>
+<div class="drag-item" draggable="true" data-component="psychological"><div class="drag-item-step">?</div><div>🧠 Психологічний (емоції, думки)</div></div>
+`;
+initS2DragAndDrop1();
+document.getElementById('s2Task2Feedback').style.display = 'none';
+showToast('🔄 Спробуй впорядкувати ще раз');
+}
+function checkS2Task3() {
+const tfItems = document.querySelectorAll('#s2Task3TF .tf-item');
+const feedback = document.getElementById('s2Task3Feedback');
+feedback.style.display = 'block';
+let allSelected = true;
+let allCorrect = true;
+tfItems.forEach((item) => {
+const selected = item.querySelector('.tf-option.selected');
+if (!selected) { allSelected = false; return; }
+const isCorrect = selected.dataset.correct === 'true';
+if (isCorrect) selected.classList.add('correct');
+else {
+selected.classList.add('incorrect');
+allCorrect = false;
+item.querySelectorAll('.tf-option').forEach(opt => {
+if (opt.dataset.correct === 'true') opt.classList.add('correct');
+});
+}
+selected.classList.remove('selected');
+});
+if (!allSelected) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери відповідь для кожного твердження!';
+return;
+}
+if (allCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Чудово!</strong> Ти розумієш біопсихосоціальний підхід.`;
+addCorrect('step2_task3');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Є помилки.</strong> Правильні варіанти виділено зеленим.';
+tfItems.forEach(item => {
+item.querySelectorAll('.tf-option').forEach(opt => opt.classList.remove('correct', 'incorrect'));
+});
+}
+}
+function retryS2Task3() {
+if (progressTracker.answered.has('step2_task3')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s2Task3TF .tf-option').forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect'));
+document.getElementById('s2Task3Feedback').style.display = 'none';
+showToast('🔄 Спробуй ще раз');
+}
+
+function checkS3Task1() {
+const selected = document.querySelector('#s3Task1Options .option.selected');
+const feedback = document.getElementById('s3Task1Feedback');
+feedback.style.display = 'block';
+if (!selected) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери один варіант відповіді';
+return;
+}
+const isCorrect = selected.dataset.correct === 'true';
+if (isCorrect) {
+selected.classList.add('correct');
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Фізична травма вплинула на психічний стан (сум), а це — на соціальні стосунки (ізоляція).`;
+document.querySelectorAll('#s3Task1Options .option').forEach(opt => {
+opt.classList.add('disabled');
+if (opt.dataset.correct === 'true') opt.classList.add('correct');
+});
+addCorrect('step3_task1');
+} else {
+selected.classList.add('incorrect');
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = `<strong>❌ Неправильно.</strong> Подумай: спочатку була травма (фізичне), потім емоції (психічне), потім ізоляція (соціальне).`;
+}
+}
+function initS3DragAndDrop2() {
+initUniversalDragDrop('s3DragItems2', '#s3DropZones2 .drop-zone', dropS3Order2);
+}
+function dropS3Order2(e) {
+e.preventDefault();
+this.classList.remove('drag-over');
+if (draggedItem) {
+if (this.classList.contains('filled')) {
+const existingText = this.querySelector('.drop-zone-text').textContent;
+const existingStep = this.dataset.step;
+const newItem = document.createElement('div');
+newItem.className = 'drag-item';
+newItem.draggable = true;
+newItem.dataset.step = existingStep;
+newItem.innerHTML = `<div class="drag-item-step">?</div><div>${existingText}</div>`;
+newItem.addEventListener('dragstart', dragStart);
+newItem.addEventListener('dragend', dragEnd);
+newItem.addEventListener('touchstart', touchStart, { passive: false });
+newItem.addEventListener('touchmove', touchMove, { passive: false });
+newItem.addEventListener('touchend', touchEnd, { passive: false });
+document.getElementById('s3DragItems2').appendChild(newItem);
+}
+const itemText = draggedItem.querySelector('div:last-child').textContent;
+this.innerHTML = `<div class="drop-zone-number">${this.dataset.position}</div><div class="drop-zone-text">${itemText}</div>`;
+this.classList.add('filled');
+this.dataset.step = draggedItem.dataset.step;
+draggedItem.remove();
+draggedItem = null;
+}
+}
+function checkS3Task2() {
+const dropZones = document.querySelectorAll('#s3DropZones2 .drop-zone');
+const feedback = document.getElementById('s3Task2Feedback');
+feedback.style.display = 'block';
+let allFilled = true;
+let dragCorrect = true;
+dropZones.forEach(zone => {
+if (!zone.classList.contains('filled')) { allFilled = false; return; }
+const position = parseInt(zone.dataset.position);
+const step = parseInt(zone.dataset.step);
+if (position === step) {
+zone.classList.add('correct');
+zone.classList.remove('incorrect');
+} else {
+zone.classList.add('incorrect');
+zone.classList.remove('correct');
+dragCorrect = false;
+}
+});
+if (!allFilled) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Заповни всі позиції (1-2-3)!';
+return;
+}
+if (dragCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Ланцюг: Соціальне (нова школа) → Психічне (хвилювання) → Фізичне (поганий сон).`;
+addCorrect('step3_task2');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Неправильно.</strong> Правильний порядок: 1.Соціальне, 2.Психічне, 3.Фізичне.';
+}
+}
+function retryS3Task2() {
+if (progressTracker.answered.has('step3_task2')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s3DropZones2 .drop-zone').forEach(zone => {
+zone.classList.remove('filled', 'correct', 'incorrect');
+zone.innerHTML = `<div class="drop-zone-number">${zone.dataset.position}</div><div class="drop-zone-text">Перетягни сюди</div>`;
+delete zone.dataset.step;
+});
+const dragItemsContainer = document.getElementById('s3DragItems2');
+dragItemsContainer.innerHTML = `
+<div class="drag-item" draggable="true" data-step="3"><div class="drag-item-step">?</div><div>🦴 Фізичне: поганий сон, втома</div></div>
+<div class="drag-item" draggable="true" data-step="1"><div class="drag-item-step">?</div><div>👥 Соціальне: нова школа, страх бути зайвою</div></div>
+<div class="drag-item" draggable="true" data-step="2"><div class="drag-item-step">?</div><div>🧠 Психічне: хвилювання, напруження</div></div>
+`;
+initS3DragAndDrop2();
+document.getElementById('s3Task2Feedback').style.display = 'none';
+showToast('🔄 Спробуй впорядкувати ще раз');
+}
+function checkS3Task3() {
+const options = document.querySelectorAll('#s3Task3Options .option');
+const feedback = document.getElementById('s3Task3Feedback');
+feedback.style.display = 'block';
+const selected = Array.from(options).filter(o => o.classList.contains('selected'));
+if (selected.length === 0) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери хоча б один варіант відповіді';
+return;
+}
+let allCorrect = true;
+options.forEach(opt => {
+const shouldBeSelected = opt.dataset.correct === 'true';
+const isSelected = opt.classList.contains('selected');
+if (shouldBeSelected && isSelected) opt.classList.add('correct');
+else if (!shouldBeSelected && isSelected) { opt.classList.add('incorrect'); allCorrect = false; }
+else if (shouldBeSelected && !isSelected) allCorrect = false;
+opt.classList.add('disabled');
+});
+if (allCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Ці дії допоможуть розірвати негативний ланцюг.`;
+addCorrect('step3_task3');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Не зовсім правильно.</strong> Спробуй ще раз.';
+options.forEach(opt => opt.classList.remove('correct', 'incorrect', 'disabled'));
+}
+}
+function retryS3Task3() {
+if (progressTracker.answered.has('step3_task3')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s3Task3Options .option').forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect', 'disabled'));
+document.getElementById('s3Task3Feedback').style.display = 'none';
+showToast('🔄 Спробуй ще раз');
+}
+function checkS3Task4() {
+const options = document.querySelectorAll('#s3Task4Options .option');
+const feedback = document.getElementById('s3Task4Feedback');
+feedback.style.display = 'block';
+const selected = Array.from(options).filter(o => o.classList.contains('selected'));
+if (selected.length === 0) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери хоча б один варіант відповіді';
+return;
+}
+let allCorrect = true;
+options.forEach(opt => {
+const shouldBeSelected = opt.dataset.correct === 'true';
+const isSelected = opt.classList.contains('selected');
+if (shouldBeSelected && isSelected) opt.classList.add('correct');
+else if (!shouldBeSelected && isSelected) { opt.classList.add('incorrect'); allCorrect = false; }
+else if (shouldBeSelected && !isSelected) allCorrect = false;
+opt.classList.add('disabled');
+});
+if (allCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Заняття спортом з друзями покращили всі три складники здоров'я!`;
+addCorrect('step3_task4');
+showToast('🎉 Крок 3 завершено!');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Не зовсім правильно.</strong> Спробуй ще раз.';
+options.forEach(opt => opt.classList.remove('correct', 'incorrect', 'disabled'));
+}
+}
+function retryS3Task4() {
+if (progressTracker.answered.has('step3_task4')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s3Task4Options .option').forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect', 'disabled'));
+document.getElementById('s3Task4Feedback').style.display = 'none';
+showToast('🔄 Спробуй ще раз');
+}
+
+function checkS4Task1() {
+const options = document.querySelectorAll('#s4Task1Options .option');
+const feedback = document.getElementById('s4Task1Feedback');
+feedback.style.display = 'block';
+const selected = Array.from(options).filter(o => o.classList.contains('selected'));
+if (selected.length === 0) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери хоча б один варіант відповіді';
+return;
+}
+let allCorrect = true;
+options.forEach(opt => {
+const shouldBeSelected = opt.dataset.correct === 'true';
+const isSelected = opt.classList.contains('selected');
+if (shouldBeSelected && isSelected) opt.classList.add('correct');
+else if (!shouldBeSelected && isSelected) { opt.classList.add('incorrect'); allCorrect = false; }
+else if (shouldBeSelected && !isSelected) allCorrect = false;
+opt.classList.add('disabled');
+});
+if (allCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Ти знаєш чинники громадського здоров'я.`;
+addCorrect('step4_task1');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Не зовсім правильно.</strong> Спробуй ще раз.';
+options.forEach(opt => opt.classList.remove('correct', 'incorrect', 'disabled'));
+}
+}
+function retryS4Task1() {
+if (progressTracker.answered.has('step4_task1')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s4Task1Options .option').forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect', 'disabled'));
+document.getElementById('s4Task1Feedback').style.display = 'none';
+showToast('🔄 Спробуй ще раз');
+}
+function checkS4Task2() {
+const tfItems = document.querySelectorAll('#s4Task2TF .tf-item');
+const feedback = document.getElementById('s4Task2Feedback');
+feedback.style.display = 'block';
+let allSelected = true;
+let allCorrect = true;
+tfItems.forEach((item) => {
+const selected = item.querySelector('.tf-option.selected');
+if (!selected) { allSelected = false; return; }
+const isCorrect = selected.dataset.correct === 'true';
+if (isCorrect) selected.classList.add('correct');
+else {
+selected.classList.add('incorrect');
+allCorrect = false;
+item.querySelectorAll('.tf-option').forEach(opt => {
+if (opt.dataset.correct === 'true') opt.classList.add('correct');
+});
+}
+selected.classList.remove('selected');
+});
+if (!allSelected) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери відповідь для кожного твердження!';
+return;
+}
+if (allCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Чудово!</strong> Ти розумієш зв'язок особистого та громадського здоров'я.`;
+addCorrect('step4_task2');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Є помилки.</strong> Правильні варіанти виділено зеленим.';
+tfItems.forEach(item => {
+item.querySelectorAll('.tf-option').forEach(opt => opt.classList.remove('correct', 'incorrect'));
+});
+}
+}
+function retryS4Task2() {
+if (progressTracker.answered.has('step4_task2')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s4Task2TF .tf-option').forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect'));
+document.getElementById('s4Task2Feedback').style.display = 'none';
+showToast('🔄 Спробуй ще раз');
+}
+function checkS4Task3() {
+const selected = document.querySelector('#s4Task3Options .option.selected');
+const feedback = document.getElementById('s4Task3Feedback');
+feedback.style.display = 'block';
+if (!selected) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери один варіант відповіді';
+return;
+}
+const isCorrect = selected.dataset.correct === 'true';
+if (isCorrect) {
+selected.classList.add('correct');
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Щеплення створюють колективний імунітет, захищаючи всю громаду!`;
+document.querySelectorAll('#s4Task3Options .option').forEach(opt => {
+opt.classList.add('disabled');
+if (opt.dataset.correct === 'true') opt.classList.add('correct');
+});
+addCorrect('step4_task3');
+} else {
+selected.classList.add('incorrect');
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = `<strong>❌ Неправильно.</strong> Подумай про громадське здоров'я, а не лише особисте.`;
+}
+}
+function checkS4Task4() {
+const options = document.querySelectorAll('#s4Task4Options .option');
+const feedback = document.getElementById('s4Task4Feedback');
+feedback.style.display = 'block';
+const selected = Array.from(options).filter(o => o.classList.contains('selected'));
+if (selected.length === 0) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери хоча б один варіант відповіді';
+return;
+}
+let allCorrect = true;
+options.forEach(opt => {
+const shouldBeSelected = opt.dataset.correct === 'true';
+const isSelected = opt.classList.contains('selected');
+if (shouldBeSelected && isSelected) opt.classList.add('correct');
+else if (!shouldBeSelected && isSelected) { opt.classList.add('incorrect'); allCorrect = false; }
+else if (shouldBeSelected && !isSelected) allCorrect = false;
+opt.classList.add('disabled');
+});
+if (allCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Ці дії покращують громадське здоров'я!`;
+addCorrect('step4_task4');
+showToast('🎉 Крок 4 завершено!');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Не зовсім правильно.</strong> Спробуй ще раз.';
+options.forEach(opt => opt.classList.remove('correct', 'incorrect', 'disabled'));
+}
+}
+function retryS4Task4() {
+if (progressTracker.answered.has('step4_task4')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s4Task4Options .option').forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect', 'disabled'));
+document.getElementById('s4Task4Feedback').style.display = 'none';
+showToast('🔄 Спробуй ще раз');
+}
+
+function initS5DragAndDrop1() {
+initUniversalDragDrop('s5DragItems1', '#s5DropZones1 .drop-zone', dropS5Order1);
+}
+function dropS5Order1(e) {
+e.preventDefault();
+this.classList.remove('drag-over');
+if (draggedItem) {
+if (this.classList.contains('filled')) {
+const existingText = this.querySelector('.drop-zone-text').textContent;
+const existingStep = this.dataset.step;
+const newItem = document.createElement('div');
+newItem.className = 'drag-item';
+newItem.draggable = true;
+newItem.dataset.step = existingStep;
+newItem.innerHTML = `<div class="drag-item-step">?</div><div>${existingText}</div>`;
+newItem.addEventListener('dragstart', dragStart);
+newItem.addEventListener('dragend', dragEnd);
+newItem.addEventListener('touchstart', touchStart, { passive: false });
+newItem.addEventListener('touchmove', touchMove, { passive: false });
+newItem.addEventListener('touchend', touchEnd, { passive: false });
+document.getElementById('s5DragItems1').appendChild(newItem);
+}
+const itemText = draggedItem.querySelector('div:last-child').textContent;
+this.innerHTML = `<div class="drop-zone-number">${this.dataset.position}</div><div class="drop-zone-text">${itemText}</div>`;
+this.classList.add('filled');
+this.dataset.step = draggedItem.dataset.step;
+draggedItem.remove();
+draggedItem = null;
+}
+}
+function checkS5Task1() {
+const dropZones = document.querySelectorAll('#s5DropZones1 .drop-zone');
+const feedback = document.getElementById('s5Task1Feedback');
+feedback.style.display = 'block';
+let allFilled = true;
+let dragCorrect = true;
+dropZones.forEach(zone => {
+if (!zone.classList.contains('filled')) { allFilled = false; return; }
+const position = parseInt(zone.dataset.position);
+const step = parseInt(zone.dataset.step);
+if (position === step) {
+zone.classList.add('correct');
+zone.classList.remove('incorrect');
+} else {
+zone.classList.add('incorrect');
+zone.classList.remove('correct');
+dragCorrect = false;
+}
+});
+if (!allFilled) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Заповни всі позиції (1-2-3-4)!';
+return;
+}
+if (dragCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Ланцюг: Допомога → Відповідальна поведінка → Взаємодопомога → Приклад для майбутніх поколінь.`;
+addCorrect('step5_task1');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Неправильно.</strong> Правильний порядок: 1.Допомога, 2.Відповідальна поведінка, 3.Взаємодопомога, 4.Приклад.';
+}
+}
+function retryS5Task1() {
+if (progressTracker.answered.has('step5_task1')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s5DropZones1 .drop-zone').forEach(zone => {
+zone.classList.remove('filled', 'correct', 'incorrect');
+zone.innerHTML = `<div class="drop-zone-number">${zone.dataset.position}</div><div class="drop-zone-text">Перетягни сюди</div>`;
+delete zone.dataset.step;
+});
+const dragItemsContainer = document.getElementById('s5DragItems1');
+dragItemsContainer.innerHTML = `
+<div class="drag-item" draggable="true" data-step="4"><div class="drag-item-step">?</div><div>🌟 Приклад для майбутніх поколінь</div></div>
+<div class="drag-item" draggable="true" data-step="1"><div class="drag-item-step">?</div><div>🤝 Допомога іншим (рішення)</div></div>
+<div class="drag-item" draggable="true" data-step="3"><div class="drag-item-step">?</div><div>🏘️ Взаємодопомога в суспільстві</div></div>
+<div class="drag-item" draggable="true" data-step="2"><div class="drag-item-step">?</div><div>✅ Відповідальна поведінка (вплив на себе)</div></div>
+`;
+initS5DragAndDrop1();
+document.getElementById('s5Task1Feedback').style.display = 'none';
+showToast('🔄 Спробуй впорядкувати ще раз');
+}
+function checkS5Task2() {
+const options = document.querySelectorAll('#s5Task2Options .option');
+const feedback = document.getElementById('s5Task2Feedback');
+feedback.style.display = 'block';
+const selected = Array.from(options).filter(o => o.classList.contains('selected'));
+if (selected.length === 0) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери хоча б один варіант відповіді';
+return;
+}
+let allCorrect = true;
+options.forEach(opt => {
+const shouldBeSelected = opt.dataset.correct === 'true';
+const isSelected = opt.classList.contains('selected');
+if (shouldBeSelected && isSelected) opt.classList.add('correct');
+else if (!shouldBeSelected && isSelected) { opt.classList.add('incorrect'); allCorrect = false; }
+else if (shouldBeSelected && !isSelected) allCorrect = false;
+opt.classList.add('disabled');
+});
+if (allCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Перевірка інформації запобігає поширенню паніки!`;
+addCorrect('step5_task2');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Не зовсім правильно.</strong> Спробуй ще раз.';
+options.forEach(opt => opt.classList.remove('correct', 'incorrect', 'disabled'));
+}
+}
+function retryS5Task2() {
+if (progressTracker.answered.has('step5_task2')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s5Task2Options .option').forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect', 'disabled'));
+document.getElementById('s5Task2Feedback').style.display = 'none';
+showToast('🔄 Спробуй ще раз');
+}
+function checkS5Task3() {
+const options = document.querySelectorAll('#s5Task3Options .option');
+const feedback = document.getElementById('s5Task3Feedback');
+feedback.style.display = 'block';
+const selected = Array.from(options).filter(o => o.classList.contains('selected'));
+if (selected.length === 0) {
+feedback.className = 'feedback feedback-warning';
+feedback.innerHTML = '💡 Обери хоча б один варіант відповіді';
+return;
+}
+let allCorrect = true;
+options.forEach(opt => {
+const shouldBeSelected = opt.dataset.correct === 'true';
+const isSelected = opt.classList.contains('selected');
+if (shouldBeSelected && isSelected) opt.classList.add('correct');
+else if (!shouldBeSelected && isSelected) { opt.classList.add('incorrect'); allCorrect = false; }
+else if (shouldBeSelected && !isSelected) allCorrect = false;
+opt.classList.add('disabled');
+});
+if (allCorrect) {
+feedback.className = 'feedback feedback-success';
+feedback.innerHTML = `<strong>✅ Правильно!</strong> Ці щоденні рішення позитивно вплинуть на тебе та оточуючих!`;
+addCorrect('step5_task3');
+showToast('🎉 Вітаємо! Ти завершив(ла) параграф!');
+} else {
+feedback.className = 'feedback feedback-error';
+feedback.innerHTML = '<strong>❌ Не зовсім правильно.</strong> Спробуй ще раз.';
+options.forEach(opt => opt.classList.remove('correct', 'incorrect', 'disabled'));
+}
+}
+function retryS5Task3() {
+if (progressTracker.answered.has('step5_task3')) { showToast('✅ Це завдання вже зараховано!'); return; }
+document.querySelectorAll('#s5Task3Options .option').forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect', 'disabled'));
+document.getElementById('s5Task3Feedback').style.display = 'none';
+showToast('🔄 Спробуй ще раз');
+}
+
+function rate(skillIndex, rating) {
+state.selfRatings[skillIndex - 1] = rating;
+saveProgress();
+const ratingContainer = document.querySelector(`.star-rating[data-skill="${skillIndex}"]`);
+if (!ratingContainer) return;
+const stars = ratingContainer.querySelectorAll('.star');
+stars.forEach((star, idx) => {
+if (idx < rating) star.classList.add('active');
+else star.classList.remove('active');
+});
+const activeStar = stars[rating - 1];
+if (activeStar) {
+activeStar.style.transform = 'scale(1.3)';
+setTimeout(() => { activeStar.style.transform = ''; }, 200);
+}
+}
+function resetProgress() {
+if (confirm('Ти впевнений(а), що хочеш почати спочатку? Весь прогрес буде скинуто.')) {
+localStorage.removeItem('section12Progress_v4');
+progressTracker.correct = 0;
+progressTracker.total = 0;
+progressTracker.answered = new Set();
+for (let i = 1; i <= 5; i++) {
+stepTracker['step' + i].completed = 0;
+Object.keys(stepTracker['step' + i].tasks).forEach(k => {
+stepTracker['step' + i].tasks[k] = false;
+});
+stepsCompleted[i] = false;
+}
+state.currentStep = 0;
+state.selfRatings = [0, 0, 0, 0];
+window.location.reload();
+}
+}
+function showToast(message, icon = '✅') {
+const container = document.getElementById('toastContainer');
+if (!container) return;
+const toast = document.createElement('div');
+toast.className = 'toast';
+toast.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-message">${message}</span>`;
+container.appendChild(toast);
+setTimeout(() => {
+toast.classList.add('hiding');
+setTimeout(() => toast.remove(), 400);
+}, 4000);
+}
+function showProgressModal() {
+updateStep6Display();
+document.getElementById('progressModal').classList.add('active');
+const totalTasks = 15;
+let completedTasks = 0;
+for (let i = 1; i <= 5; i++) completedTasks += stepTracker['step' + i].completed;
+const percent = Math.min(100, Math.round((completedTasks / totalTasks) * 100));
+const accuracy = progressTracker.total > 0
+? Math.round((progressTracker.correct / progressTracker.total) * 100) : 0;
+const completedSteps = Object.values(stepsCompleted).filter(v => v).length;
+const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+el('modalTasks', `${completedTasks}/${totalTasks}`);
+el('modalCorrect', progressTracker.correct);
+el('modalSteps', `${completedSteps}/5`);
+el('modalAccuracy', `${accuracy}%`);
+el('modalProgressPercent', `${percent}%`);
+const bar = document.getElementById('modalProgressBar');
+if (bar) bar.style.width = `${percent}%`;
+let level = 'Початківець', emoji = '⭐☆☆☆☆';
+if (percent >= 76) { level = `Експерт зі здоров'я`; emoji = '⭐⭐⭐⭐⭐'; }
+else if (percent >= 51) { level = 'Досвідчений учень'; emoji = '⭐⭐⭐☆☆'; }
+else if (percent >= 26) { level = 'Учень'; emoji = '⭐⭐☆☆☆'; }
+el('modalLevelName', level);
+el('modalLevelEmoji', emoji);
+}
+function showHelpModal() {
+document.getElementById('helpModal').classList.add('active');
+}
+function closeModal(modalId) {
+document.getElementById(modalId).classList.remove('active');
+}
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+overlay.addEventListener('click', function(e) {
+if (e.target === this) this.classList.remove('active');
+});
+});
+document.addEventListener('keydown', function(e) {
+if (e.key === 'Escape') {
+document.querySelectorAll('.modal-overlay.active').forEach(modal => modal.classList.remove('active'));
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+loadProgress();
+goToMainPage();
+console.log('🌟 Тренажер §12 завантажено');
+});
+</script>
+</body>
+</html>
